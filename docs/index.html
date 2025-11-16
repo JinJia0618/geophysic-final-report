@@ -1,10 +1,10 @@
-# Make the "week" cards clickable when a `link` property exists, and add GitHub Pages tips in comments.
+# Re-run to save the file (blue pill clickable only).
 html = r"""<!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>🌍 地球物理通論｜課程大綱（Clickable Weeks + Pages-ready）</title>
+<title>🌍 地球物理通論｜課程大綱（Blue Pill Clickable）</title>
 <style>
 :root{
   --bg:#0b1020; --card:#121a33; --ink:#f6fbff; --muted:#bcd1ff;
@@ -42,20 +42,19 @@ section.card h2::after{content:"";flex:1;height:2px;background:linear-gradient(9
 input.search{width:100%;padding:12px 14px;border-radius:14px;background:var(--surface-2);border:1px solid rgba(255,255,255,.28);color:#fff;outline:none}
 
 .grid{display:grid;gap:16px;margin-top:14px;grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
-/* Anchor-as-card for clickable */
-a.week, article.week{display:block;text-decoration:none;color:inherit}
+article.week{display:block;color:inherit;text-decoration:none}
 .week{background:linear-gradient(180deg,#0e1b3f,#0c1634);border:1px solid rgba(255,255,255,.22);border-radius:18px;padding:18px;box-shadow:var(--shadow);position:relative;overflow:hidden}
 .week h3{margin:0 0 10px;font-size:19px;color:#fff;line-height:1.35}
 .week .date{color:#e0ebff;font-size:13px}
 .tag{display:inline-block;padding:5px 10px;margin:7px 10px 0 0;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.3px}
 .tag.k{background:rgba(67,211,255,.18);color:#bfeeff;border:1px solid rgba(67,211,255,.6)}
 .tag.s{background:rgba(255,209,102,.18);color:#ffe5a6;border:1px solid rgba(255,209,102,.7)}
+/* clickable blue pill */
+a.link-pill.k{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;font-size:12px;font-weight:800;text-decoration:none;color:#bfeeff;margin:7px 10px 0 0;border:1px solid rgba(67,211,255,.6);background:rgba(67,211,255,.18);transition:.12s transform,.12s box-shadow}
+a.link-pill.k:hover{transform:translateY(-1px); box-shadow:0 6px 14px rgba(0,0,0,.18)}
 .badge{position:absolute;right:-30px;top:-18px;transform:rotate(35deg);background:#0a3d63;padding:30px 58px;color:#9fe3ff;font-weight:900;letter-spacing:2px;opacity:.3}
-.week.clickable{cursor:pointer;transition:.15s transform,.15s box-shadow}
-.week.clickable:hover{transform:translateY(-2px);box-shadow:0 16px 28px rgba(0,0,0,.28)}
 .note{font-size:13px;color:#e6f0ff}
 .muted{color:var(--muted)}
-
 footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
 
 /* Light theme */
@@ -70,6 +69,7 @@ footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
 .light .date{color:#4a5b86}
 .light .tag.k{background:#dff6ff;color:#064a63;border-color:#64d3ff}
 .light .tag.s{background:#fff4da;color:#6a4a06;border-color:#ffcf66}
+.light a.link-pill.k{background:#dff6ff;color:#064a63;border-color:#64d3ff}
 .light .note{color:#2d3b63}
 .light .muted{color:#33446a}
 .light .btn.ghost{color:#2d3b63;border-color:#6678a6}
@@ -88,7 +88,7 @@ footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
   </header>
 
   <section class="card">
-    <h2>📅 週次安排（可點週次打開對應頁）</h2>
+    <h2>📅 週次安排（藍色膠囊可點，黃色先不連結）</h2>
     <div class="toolbar">
       <input class="search" id="searchBox" placeholder="搜尋關鍵字，例如：折射、重力、pygmt、期中考…" />
       <div class="actions">
@@ -99,7 +99,7 @@ footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
       </div>
     </div>
     <div class="grid" id="weeks"></div>
-    <p class="note">※ 如果你把這個網站放在 <code>docs/</code>，請到 <b>Settings → Pages</b> 設定 Source：<b>Deploy from a branch</b>，Branch：<b>main</b>，Folder：<b>/docs</b>。</p>
+    <p class="note">※ 若使用 GitHub Pages 並將檔案放 <code>docs/</code>，請於 <b>Settings → Pages</b> 設定 Source：<b>Deploy from a branch</b>、Branch：<b>main</b>、Folder：<b>/docs</b>。</p>
   </section>
 
   <footer>Designed with ❤️ ｜把整段 HTML 放進 Blogger 或 GitHub Pages（docs/）即可。</footer>
@@ -109,10 +109,10 @@ footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
 // star field
 (function(){const c=document.getElementById('stars');if(!c)return;const x=c.getContext('2d'),D=window.devicePixelRatio||1,W=c.clientWidth*D,H=c.clientHeight*D;c.width=W;c.height=H;const s=Array.from({length:120},()=>({x:Math.random()*W,y:Math.random()*H,r:Math.random()*1.6+.4,a:Math.random()}));(function d(){x.clearRect(0,0,W,H);for(const o of s){x.beginPath();x.arc(o.x,o.y,o.r,0,6.283);x.fillStyle="rgba(255,255,255,"+(0.55+.45*Math.sin(performance.now()/1e3+o.a))+")";x.fill()}requestAnimationFrame(d)})()})();
 
-// schedule data (加上 link 屬性即可點擊)
+// schedule data（只給藍色知識膠囊 kLink，Week2 拿掉連結）
 const schedule=[
-  {w:"第一週",date:"9/10",k:"地球物理概要",s:"安裝 Python、申請帳號（Google/HF/GitHub）、Colab、Codespaces、Dify",link:"week1.html"},
-  {w:"第二週",date:"9/17",k:"折射探勘學",s:"PyGMT、ObsPy、Streamlit、Gradio",link:"week1.html"},
+  {w:"第一週",date:"9/10",k:"地球物理概要",s:"安裝 Python、申請帳號（Google/HF/GitHub）、Colab、Codespaces、Dify",kLink:"week1.html"},
+  {w:"第二週",date:"9/17",k:"折射探勘學",s:"PyGMT、ObsPy、Streamlit、Gradio"},
   {w:"第三週",date:"9/24",k:"校園野外實驗（折射探勘）",s:"—"},
   {w:"第四週",date:"10/1",k:"地球物理專題演講",s:"—"},
   {w:"第五週",date:"10/8",k:"折射探勘學",s:"Hugging Face Space 互動程式"},
@@ -131,7 +131,7 @@ const schedule=[
   {w:"第十八週",date:"TBA",k:"參訪大屯火山觀測中心（暫定）",s:"—"}
 ];
 
-// render with clickable card if link exists
+// render：藍色膠囊若有 kLink 則渲染為 <a>，黃色維持文字
 const weeksEl=document.getElementById('weeks');
 function render(filter="all",q=""){
   weeksEl.innerHTML="";
@@ -142,18 +142,23 @@ function render(filter="all",q=""){
     const showBySearch=query===""||merge.includes(query);
     if(!(showByFilter&&showBySearch)) return;
 
-    const isLink=!!row.link;
-    const el=document.createElement(isLink?"a":"article");
-    el.className="week"+(isLink?" clickable":"");
-    if(isLink){ el.href=row.link; el.rel="noopener"; }
+    const el=document.createElement('article');
+    el.className="week";
 
     const badgeText=row.k.includes("放假")?"HOLIDAY":(row.k.includes("期中考")?"MIDTERM":(row.k.includes("期末")?"FINAL":""));
     const badge=badgeText?`<div class="badge">${badgeText}</div>`:"";
-    el.innerHTML=`
+
+    const kBlock = row.kLink
+      ? `<a class="link-pill k" href="${row.kLink}">🧭 <span>地球物理知識｜</span><span class="link-text">${row.k}</span></a>`
+      : `<div><span class="tag k">🧭 地球物理知識</span> ${row.k}</div>`;
+
+    const sBlock = `<div><span class="tag s">🛠️ 資料處理技能</span> ${row.s}</div>`;
+
+    el.innerHTML = `
       ${badge}
       <h3>${row.w} <span class="date">（${row.date}）</span></h3>
-      <div><span class="tag k">🧭 地球物理知識</span> ${row.k}</div>
-      <div><span class="tag s">🛠️ 資料處理技能</span> ${row.s}</div>
+      ${kBlock}
+      ${sBlock}
     `;
     weeksEl.appendChild(el);
   });
@@ -190,6 +195,6 @@ document.getElementById('searchBox').addEventListener('input',e=>{
 </body>
 </html>
 """
-with open("/mnt/data/geophysics_clickable_pages.html","w",encoding="utf-8") as f:
+with open("/mnt/data/geophysics_index_pills_blue_only.html","w",encoding="utf-8") as f:
     f.write(html)
-"/mnt/data/geophysics_clickable_pages.html"
+"/mnt/data/geophysics_index_pills_blue_only.html"
