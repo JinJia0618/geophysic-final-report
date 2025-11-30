@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>🌍 地球物理通論｜課程大綱與互動指南（V2・高對比＋排版優化）</title>
+<style>
+/* ---------------- Core tokens ---------------- */
+:root{
+  --bg:#0b1020;
+  --card:#121a33;
+  --ink:#f6fbff;
+  --muted:#bcd1ff;
+  --accent:#43d3ff;
+  --accent-2:#ffd166;
+  --surface-1:#0f1630;
+  --surface-2:#0d1b3f;
+  --shadow:0 14px 38px rgba(0,0,0,.42);
+  --radius:22px;
+  --space-1:6px;
+  --space-2:10px;
+  --space-3:14px;
+  --space-4:18px;
+  --space-5:24px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Noto Sans TC","Microsoft JhengHei",system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 800px at 10% -10%, #1a2550, transparent 70%),
+    radial-gradient(1000px 600px at 90% 0%, #0a3c47, transparent 60%),
+    radial-gradient(800px 500px at 50% 120%, #2b0b2f, transparent 60%),
+    var(--bg);
+  line-height:1.8;
+  letter-spacing:.2px;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{max-width:1100px;margin:0 auto;padding:28px 18px 96px}
+
+/* ---------------- Hero ---------------- */
+header.hero{
+  position:relative; border-radius:var(--radius);
+  padding:56px 26px 30px;
+  background: linear-gradient(135deg,#163258 0%,#0a3d63 60%,#0a2a2a 100%);
+  box-shadow:var(--shadow); overflow:hidden; color:#eaf4ff;
+}
+/* keep text above decoration */
+header.hero h1, header.hero p, header.hero .chips{position:relative;z-index:2}
+header.hero h1{margin:0 0 var(--space-2); font-size:clamp(30px,4.4vw,46px); line-height:1.25}
+header.hero p{margin:var(--space-1) 0 0; color:#e6f0ff; font-size:clamp(15px,2.2vw,18px)}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:var(--space-3)}
+.chip{
+  background:#0e2f66;border:1px solid rgba(255,255,255,.22);
+  padding:7px 12px;border-radius:999px;color:#f6fbff;
+  font-size:13px;font-weight:700;line-height:1
+}
+/* Decorative planet safely to the corner */
+.orbit{
+  position:absolute; right:-240px; top:-260px; width:520px; height:520px;
+  border-radius:50%; filter:drop-shadow(0 0 36px rgba(74,211,255,.18));
+  pointer-events:none; z-index:0;
+}
+.earth{
+  position:absolute; width:120px; height:120px; border-radius:50%;
+  right:28px; top:-24px;
+  background: radial-gradient(circle at 36% 40%, #64dbff 0 42%, #1e57ac 52% 100%);
+  box-shadow: inset -12px -16px 28px rgba(0,0,0,.35);
+  animation: spin 16s linear infinite;
+  border:2px solid rgba(255,255,255,.25);
+  z-index:0; opacity:.85; pointer-events:none;
+}
+.earth::after{
+  content:""; position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 55% 40%, #5fe08f 0 20%, transparent 21%),
+    radial-gradient(circle at 35% 65%, #5fe08f 0 16%, transparent 17%),
+    radial-gradient(circle at 70% 70%, #5fe08f 0 12%, transparent 13%);
+  mix-blend-mode:multiply; opacity:.85;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------------- Sections & Typography ---------------- */
+section.card{
+  background:var(--card);
+  border:1px solid rgba(255,255,255,.18);
+  border-radius:var(--radius);
+  padding:var(--space-5);
+  margin-top:var(--space-4);
+  box-shadow:var(--shadow);
+}
+section.card h2{
+  margin:0 0 var(--space-3);
+  display:flex; gap:10px; align-items:center;
+  font-size:clamp(21px,2.8vw,28px); line-height:1.3; color:#fff;
+}
+section.card h2::after{
+  content:"";flex:1;height:2px;background:linear-gradient(90deg,var(--accent),transparent);
+  margin-left:8px;opacity:.6
+}
+p{margin:.35em 0 .9em}
+ul{margin:.35em 0 .9em 1.3em}
+li{margin:.35em 0}
+
+/* ---------------- Buttons & Inputs ---------------- */
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:10px}
+.btn{
+  appearance:none;border:none;cursor:pointer;
+  padding:12px 16px;border-radius:14px;
+  background:#0e2a63;color:#f8fbff;font-weight:800;
+  border:1px solid rgba(255,255,255,.25);
+  transition:.18s transform,.18s background,.18s box-shadow;
+}
+.btn:hover{transform:translateY(-1px); background:#14367f; box-shadow:0 10px 18px rgba(0,0,0,.25)}
+.btn.primary{background:linear-gradient(135deg,#00c2ff,#0078c9); border-color:transparent}
+.btn.gold{background:linear-gradient(135deg,#ffd166,#ff9f1c); color:#1d1300; border-color:transparent}
+.btn.ghost{background:transparent;border:1.5px dashed rgba(255,255,255,.55); color:#e9f4ff}
+
+.toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar .search{flex:1; min-width:260px}
+input.search{
+  width:100%; padding:12px 14px; border-radius:14px;
+  background:var(--surface-2); border:1px solid rgba(255,255,255,.28); color:#fff; outline:none;
+}
+
+/* ---------------- Timeline grid ---------------- */
+.grid{display:grid; gap:16px; margin-top:14px; grid-template-columns:repeat(auto-fill,minmax(290px,1fr))}
+.week{
+  background:linear-gradient(180deg,#0e1b3f 0%, #0c1634 100%);
+  border:1px solid rgba(255,255,255,.22);
+  border-radius:18px; padding:18px; box-shadow:var(--shadow);
+  position:relative; overflow:hidden; color:#f6faff;
+}
+.week h3{margin:0 0 10px; font-size:19px; color:#ffffff; line-height:1.35}
+.week .date{color:#e0ebff; font-size:13px}
+.tag{display:inline-block;padding:5px 10px;margin:7px 10px 0 0;border-radius:999px;font-size:12px;font-weight:800; letter-spacing:.3px}
+.tag.k{background:rgba(67,211,255,.18); color:#bfeeff; border:1px solid rgba(67,211,255,.6)}
+.tag.s{background:rgba(255,209,102,.18); color:#ffe5a6; border:1px solid rgba(255,209,102,.7)}
+.badge{
+  position:absolute; right:-30px; top:-18px; transform:rotate(35deg);
+  background:#0a3d63; padding:30px 58px; color:#9fe3ff; font-weight:900; letter-spacing:2px; opacity:.3
+}
+.note{font-size:13px;color:#e6f0ff}
+.muted{color:var(--muted)}
+.two-col{display:grid; gap:20px; grid-template-columns:1.25fr 1fr}
+
+/* ---------------- Footer ---------------- */
+footer{margin-top:40px;color:#cdd9ff;text-align:center;font-size:13px}
+
+/* ---------------- Light theme overrides ---------------- */
+.light{
+  --bg:#f5f8ff;
+  --card:#ffffff;
+  --ink:#0b142a;
+  --muted:#33446a;
+  --surface-1:#ecf2ff;
+  --surface-2:#ffffff;
+}
+.light header.hero{background: linear-gradient(135deg,#e8f3ff,#d9ecff); color:#0b142a}
+.light header.hero p{color:#293a5e}
+.light .chip{background:#e0edff; color:#0c214a; border-color:#b8cff8}
+.light section.card h2{color:#0b142a}
+.light input.search{background:#ffffff; color:#0b142a; border-color:#91a7e2}
+.light .week{background:#ffffff; color:#0b142a; border-color:#c7d3f9}
+.light .week h3{color:#0b142a}
+.light .date{color:#4a5b86}
+.light .tag.k{background:#dff6ff; color:#064a63; border-color:#64d3ff}
+.light .tag.s{background:#fff4da; color:#6a4a06; border-color:#ffcf66}
+.light .note{color:#2d3b63}
+.light .muted{color:#33446a}
+.light .btn.ghost{color:#2d3b63; border-color:#6678a6}
+.light .badge{background:#e0eaff; color:#294072; opacity:.5}
+
+/* ---------------- Responsive ---------------- */
+@media (max-width:960px){
+  .two-col{grid-template-columns:1fr}
+  .orbit,.earth{display:none}
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="hero">
+      <canvas id="stars" class="orbit" aria-hidden="true"></canvas>
+      <div class="earth" aria-hidden="true"></div>
+
+      <h1>地球物理通論｜課程大綱與互動指南</h1>
+      <p><b>兩大主軸：</b>地球物理知識 × 資料處理技能。用程式與 AI 讀懂地球的脈動。</p>
+      <div class="chips">
+        <span class="chip">#PyGMT</span>
+        <span class="chip">#ObsPy</span>
+        <span class="chip">#Gradio</span>
+        <span class="chip">#Streamlit</span>
+        <span class="chip">#GitHub & Codespaces</span>
+        <span class="chip">#Gemini API</span>
+        <span class="chip">#Dify</span>
+      </div>
+    </header>
+
+    <section class="card two-col">
+      <div>
+        <h2>🎯 課程目標（Course Objectives）</h2>
+        <p class="muted">從理論到實作，打造「地球科學 × 數據科學」雙核心能力：</p>
+        <ul>
+          <li><b>地球物理學識</b>：折射震測、重力探勘、板塊構造、地磁、地熱。</li>
+          <li><b>程式與平台</b>：Python、Git/GitHub、Colab、Codespaces。</li>
+          <li><b>專業視覺化</b>：PyGMT 出圖、ObsPy 波形分析。</li>
+          <li><b>互動應用</b>：用 Gradio / Streamlit 製作可分享的 Web App，部署到 Hugging Face Spaces。</li>
+          <li><b>導入 AI</b>：Gemini API、Dify，練習建置 AI 助教與資料管線。</li>
+        </ul>
+        <div class="actions">
+          <a class="btn primary" href="https://huggingface.co/spaces/cwadayi/Geophysics_class" target="_blank" rel="noopener">🚀 打開課程互動 Space</a>
+          <a class="btn" href="https://colab.research.google.com" target="_blank" rel="noopener">▶️ 進入 Google Colab</a>
+          <a class="btn" href="https://github.com/codespaces" target="_blank" rel="noopener">💻 GitHub Codespaces</a>
+          <button class="btn ghost" id="copyGoals">📋 複製目標</button>
+          <button class="btn" id="themeToggle">☀️/🌙 切換主題</button>
+        </div>
+      </div>
+      <div>
+        <h2>🤖 小玩具：隨機地球冷知識</h2>
+        <p class="muted">點擊按鈕，帶走一個可以在課堂上分享的冷知識！</p>
+        <button class="btn gold" id="factBtn">抽一則冷知識</button>
+        <p id="fact" class="note"></p>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>📅 週次安排（Timeline）</h2>
+      <div class="toolbar">
+        <input class="search" id="searchBox" placeholder="搜尋關鍵字，例如：折射、重力、pygmt、期中考…" />
+        <div class="actions">
+          <button class="btn" data-filter="all">全部</button>
+          <button class="btn" data-filter="knowledge">只看：地球物理知識</button>
+          <button class="btn" data-filter="skills">只看：資料處理技能</button>
+        </div>
+      </div>
+      <div class="grid" id="weeks"></div>
+      <p class="note">※ 行事曆提醒：<b>12/25 行憲紀念日</b>、<b>1/1 元旦</b> 放假；第十八週「參訪大屯火山觀測中心」日期將依校方行事曆另行公告。</p>
+    </section>
+
+    <section class="card">
+      <h2>🧪 線上互動實驗室</h2>
+      <p class="muted">想邊看邊做？打開上方「🚀 課程互動 Space」，內含：</p>
+      <ul>
+        <li><b>地圖繪製實驗室</b>（PyGMT / Cartopy 概念）— 練習地圖視覺化。</li>
+        <li><b>震波圖實驗室</b>（ObsPy 概念）— 調整 P/S 到時、頻率與衰減。</li>
+        <li><b>AI 課程助教</b>— 以知識庫與快捷指令查詢課綱、地震資訊等。</li>
+      </ul>
+      <div class="actions">
+        <a class="btn primary" href="https://huggingface.co/spaces/cwadayi/Geophysics_class" target="_blank" rel="noopener">前往互動實驗室</a>
+        <a class="btn" href="#weeks">返回週次表</a>
+      </div>
+    </section>
+
+    <footer>
+      <p>Designed with ❤️ + 🛰️ 直接貼到 Blogger「HTML 視圖」即可使用。</p>
+    </footer>
+  </div>
+
+<script>
+// ---- star field ----
+(function(){
+  const c = document.getElementById('stars');
+  if(!c) return;
+  const ctx = c.getContext('2d');
+  const DPR = window.devicePixelRatio || 1;
+  const W = c.clientWidth * DPR, H = c.clientHeight * DPR;
+  c.width = W; c.height = H;
+  function star(){ return {x: Math.random()*W, y: Math.random()*H, r: Math.random()*1.6 + .4, a: Math.random()*1}};
+  const stars = Array.from({length: 120}, star);
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    for(const s of stars){
+      ctx.beginPath(); ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle = "rgba(255,255,255,"+(0.55 + 0.45*Math.sin(performance.now()/1000 + s.a))+")";
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ---- data ----
+const schedule = [
+  {w:"第一週", date:"9/10", k:"地球物理概要", s:"安裝 Python、申請帳號（Google/HF/GitHub）、Colab、Codespaces、Dify"},
+  {w:"第二週", date:"9/17", k:"折射探勘學", s:"PyGMT、ObsPy、Streamlit、Gradio"},
+  {w:"第三週", date:"9/24", k:"校園野外實驗（折射探勘）", s:"—"},
+  {w:"第四週", date:"10/1", k:"地球物理專題演講", s:"—"},
+  {w:"第五週", date:"10/8", k:"折射探勘學", s:"Hugging Face Space 互動程式"},
+  {w:"第六週", date:"10/15", k:"重力探勘學", s:"Colab 使用"},
+  {w:"第七週", date:"10/22", k:"重力探勘學", s:"GitHub 與 Codespaces 使用"},
+  {w:"第八週", date:"10/29", k:"期中考", s:"—"},
+  {w:"第九週", date:"11/05", k:"板塊構造與地震", s:"PyGMT"},
+  {w:"第十週", date:"11/12", k:"板塊構造與地震", s:"PyGMT"},
+  {w:"第十一週", date:"11/19", k:"板塊構造與地磁", s:"ObsPy"},
+  {w:"第十二週", date:"11/26", k:"板塊構造與地磁", s:"ObsPy"},
+  {w:"第十三週", date:"12/3", k:"板塊構造與地熱", s:"Gemini API 申請、Dify"},
+  {w:"第十四週", date:"12/10", k:"板塊構造與地熱", s:"Dify"},
+  {w:"第十五週", date:"12/17", k:"期末專題發表", s:"—"},
+  {w:"第十六週", date:"12/25", k:"行憲紀念日（放假）", s:"—"},
+  {w:"第十七週", date:"1/1", k:"元旦（放假）", s:"—"},
+  {w:"第十八週", date:"TBA", k:"參訪大屯火山觀測中心（暫定）", s:"—"}
+];
+
+// ---- render weeks ----
+const weeksEl = document.getElementById('weeks');
+function render(filter="all", query=""){
+  weeksEl.innerHTML = "";
+  const q = query.trim().toLowerCase();
+  schedule.forEach((row)=>{
+    const showByFilter = (filter==="all") ||
+      (filter==="knowledge" && row.k && row.k!=="—") ||
+      (filter==="skills" && row.s && row.s!=="—");
+    const merge = `${row.w} ${row.date} ${row.k} ${row.s}`.toLowerCase();
+    const showBySearch = q==="" || merge.includes(q);
+    if(showByFilter && showBySearch){
+      const card = document.createElement('article');
+      card.className = "week";
+      const badgeText = (row.k.includes("放假")) ? "HOLIDAY" :
+                        (row.k.includes("期中考") ? "MIDTERM" :
+                        (row.k.includes("期末") ? "FINAL" : ""));
+      const badge = badgeText ? `<div class="badge">${badgeText}</div>` : "";
+      card.innerHTML = `
+        ${badge}
+        <h3>${row.w} <span class="date">（${row.date}）</span></h3>
+        <div><span class="tag k">🧭 地球物理知識</span> ${row.k}</div>
+        <div><span class="tag s">🛠️ 資料處理技能</span> ${row.s}</div>
+      `;
+      weeksEl.appendChild(card);
+    }
+  });
+}
+render();
+
+// ---- toolbar behaviors ----
+document.querySelectorAll("[data-filter]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll("[data-filter]").forEach(b=>b.classList.remove("active"));
+    btn.classList.add("active");
+    render(btn.dataset.filter, document.getElementById('searchBox').value);
+  })
+});
+document.getElementById('searchBox').addEventListener('input', (e)=>{
+  const active = document.querySelector("[data-filter].active");
+  const filter = active ? active.dataset.filter : "all";
+  render(filter, e.target.value);
+});
+
+// ---- copy course goals ----
+document.getElementById('copyGoals').addEventListener('click', async ()=>{
+  const text = `課程目標：
+1) 地球物理學識：折射震測、重力探勘、板塊構造、地磁、地熱。
+2) 程式與平台：Python、Git/GitHub、Colab、Codespaces。
+3) 視覺化：PyGMT、ObsPy。
+4) 互動應用：Gradio/Streamlit、Hugging Face Spaces。
+5) AI：Gemini API、Dify。`;
+  try{ await navigator.clipboard.writeText(text); alert("已複製到剪貼簿！"); }
+  catch(e){ alert("無法複製，請手動選取。") }
+});
+
+// ---- fun facts ----
+const facts = [
+  "地震波在高速層會沿界面折射遠傳，這就是折射震測能看見深層速度層的原因。",
+  "海底擴張留下對稱的古地磁條帶，是板塊構造最經典的證據之一。",
+  "重力異常可用來推測地下密度結構：正異常→高密度體，負異常→低密度體。",
+  "台灣位於歐亞與菲律賓海板塊碰撞帶，聚集了地震、地熱與造山的能量。",
+  "ObsPy 可從原始波形中濾波、特徵提取；PyGMT 可繪製出版級地圖。"
+];
+document.getElementById('factBtn').addEventListener('click',()=>{
+  const pick = facts[Math.floor(Math.random()*facts.length)];
+  document.getElementById('fact').textContent = "👉 " + pick;
+});
+
+// ---- theme toggle + persistence ----
+(function(){
+  const btn = document.getElementById('themeToggle');
+  const prefersLight = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+  const saved = localStorage.getItem('geophy_theme');
+  const startLight = saved ? saved === 'light' : prefersLight;
+  if(startLight) document.body.classList.add('light');
+
+  btn.addEventListener('click', ()=>{
+    document.body.classList.toggle('light');
+    localStorage.setItem('geophy_theme', document.body.classList.contains('light') ? 'light' : 'dark');
+  });
+})();
+</script>
+</body>
+</html>
