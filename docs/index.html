@@ -1,100 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Geophysics Final Project</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script type="importmap">
-    {
-      "imports": {
-        "react": "https://esm.sh/react@18.2.0",
-        "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-        "lucide-react": "https://esm.sh/lucide-react@0.294.0"
-      }
-    }
-    </script>
-
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            animation: {
-              'spin-slow': 'spin 8s linear infinite',
-              'fade-in': 'fadeIn 1s ease-out forwards',
-              'fade-in-down': 'fadeInDown 1s ease-out forwards',
-              'fade-in-up': 'fadeInUp 1s ease-out forwards',
-              'overlay-fade-out': 'overlayFadeOut 1.8s ease-in-out forwards',
-              'title-reveal': 'titleReveal 1.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards',
-              'icon-pulse': 'iconPulse 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards',
-              'micro-shake-light': 'micro-shake-light 0.2s infinite linear',
-              'screen-shake': 'screen-shake 0.5s ease-out',
-              'crack-draw': 'draw-crack 1.2s ease-in forwards',
-              'blast': 'blast-wave 1.2s cubic-bezier(0, 0.5, 0.5, 1) forwards',
-              'flare': 'lens-flare-expand 0.8s ease-out forwards',
-              'seismic-wave': 'seismic-ripple-linear linear infinite',
-              'flashbang': 'flashbang 0.8s ease-out forwards',
-              'debris': 'debris-scatter 2.5s cubic-bezier(0.1, 0.9, 0.2, 1) forwards',
-              'core-pulse': 'core-pulse 2s infinite',
-              'magma': 'magma-flow 2s linear infinite',
-            },
-            keyframes: {
-               fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
-               fadeInDown: { '0%': { opacity: '0', transform: 'translateY(-20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-               fadeInUp: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-               overlayFadeOut: { '0%': { opacity: 1, 'pointer-events': 'auto' }, '70%': { opacity: 1 }, '100%': { opacity: 0, 'pointer-events': 'none' } },
-               // ... 其他關鍵影格稍微省略，為了讓你能順利執行，Tailwind 的 JIT 模式會自動處理大部分 class
-            }
-          }
-        }
-      }
-    </script>
-    
-    <style>
-      /* 補充動畫樣式確保完整性 */
-      @keyframes overlayFadeOut { 0% { opacity: 1; pointer-events: auto; } 70% { opacity: 1; } 100% { opacity: 0; pointer-events: none; } }
-      @keyframes titleReveal { 0% { transform: scale(0.8); opacity: 0; letter-spacing: 0.5em; filter: blur(10px); } 40% { transform: scale(1); opacity: 1; letter-spacing: 0.1em; filter: blur(0px); } 80% { opacity: 1; transform: scale(1.05); } 100% { opacity: 0; transform: scale(1.1); } }
-      @keyframes iconPulse { 0% { transform: scale(0.5); opacity: 0; } 30% { transform: scale(1.2); opacity: 1; } 50% { transform: scale(1); } 100% { transform: scale(3); opacity: 0; } }
-      @keyframes micro-shake-light { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(1px, 0); } 50% { transform: translate(-1px, 0); } 75% { transform: translate(0, 1px); } }
-      @keyframes shake-violent { 0% { transform: translate(0, 0); } 10% { transform: translate(-3px, 3px) rotate(-2deg); } 20% { transform: translate(2px, -4px) rotate(2deg); } 30% { transform: translate(-4px, 1px); } 40% { transform: translate(4px, 3px) rotate(-1deg); } 50% { transform: translate(-2px, -3px); } 60% { transform: translate(3px, 4px) rotate(2deg); } 70% { transform: translate(-4px, 2px); } 80% { transform: translate(4px, -2px) rotate(-2deg); } 90% { transform: translate(-2px, 3px); } 100% { transform: translate(0, 0); } }
-      @keyframes screen-shake { 0%, 100% { transform: translateX(0); } 10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); } 20%, 40%, 60%, 80% { transform: translateX(5px); } }
-      @keyframes draw-crack { from { stroke-dashoffset: 130; opacity: 0; filter: drop-shadow(0 0 0px orange); stroke-width: 0.5; } to { stroke-dashoffset: 0; opacity: 1; filter: drop-shadow(0 0 15px #f97316); stroke-width: 3.5; } }
-      @keyframes blast-wave { 0% { transform: scale(0.8); opacity: 1; border-width: 60px; } 100% { transform: scale(4); opacity: 0; border-width: 0px; } }
-      @keyframes lens-flare-expand { 0% { transform: scaleX(0) scaleY(1); opacity: 0; } 20% { transform: scaleX(2) scaleY(1.5); opacity: 1; } 100% { transform: scaleX(4) scaleY(0); opacity: 0; } }
-      @keyframes seismic-ripple-linear { 0% { transform: scale(0.1); opacity: 0; border-width: 0px; } 5% { opacity: 1; border-width: 10px; } 100% { transform: scale(10); opacity: 0; border-width: 0px; } }
-      @keyframes debris-scatter { 0% { transform: translate(0,0) rotate(0deg) scale(0); opacity: 1; } 100% { transform: translate(var(--tx), var(--ty)) rotate(var(--r)) scale(var(--s)); opacity: 0; } }
-      @keyframes star-fly { 0% { transform: scale(0) translate(0,0); opacity: 0; } 20% { opacity: 1; } 100% { transform: scale(4) translate(var(--sx), var(--sy)); opacity: 0; } }
-      @keyframes flashbang { 0% { opacity: 1; } 100% { opacity: 0; } }
-      @keyframes core-pulse { 0% { opacity: 0.3; transform: scale(0.9); filter: brightness(1); } 50% { opacity: 0.9; transform: scale(1.15); filter: brightness(1.5); } 100% { opacity: 0.3; transform: scale(0.9); filter: brightness(1); } }
-      @keyframes magma-flow { 0% { stroke-dashoffset: 0; opacity: 0.8; } 50% { opacity: 1; filter: drop-shadow(0 0 5px #ef4444); } 100% { stroke-dashoffset: -20; opacity: 0.8; } }
-      @keyframes text-reveal-cyber { 0% { opacity: 0; letter-spacing: 1em; filter: blur(10px); transform: scale(1.2); } 50% { opacity: 1; letter-spacing: 0.15em; filter: blur(0px); transform: scale(1); } 60% { opacity: 0.8; text-shadow: 2px 0 red, -2px 0 blue; } 70% { opacity: 1; text-shadow: none; } 100% { opacity: 1; letter-spacing: 0.2em; } }
-      @keyframes micro-shake { 0% { transform: translate(0, 0); } 25% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 75% { transform: translate(-1px, 1px); } 100% { transform: translate(1px, -1px); } }
-    </style>
-</head>
-<body class="bg-slate-900 text-slate-100 h-screen w-screen overflow-x-hidden">
-    
-    <div id="root"></div>
-
-    <script type="text/babel" data-type="module">
-        // 這裡一定要引入 createRoot
-        import React, { useState, useEffect, useMemo } from 'react';
-        import { createRoot } from 'react-dom/client';
-        import { 
-          Activity, Globe, ChevronLeft, BookOpen, BarChart2, ArrowRight, 
-          Fingerprint, Hammer, Calculator, ClipboardList, Camera, Sigma, 
-          PlayCircle, ImageOff, Ruler, PenTool, TrendingUp, X, Mountain, 
-          MoveVertical, Cloud, Database, Info, Scale, Code, FileText, 
-          Presentation, Compass, Thermometer, Map, ArrowUpRight, Layers,
-          ExternalLink, Terminal, Monitor, Reply, Link, Calendar, Clock, Target, Zap,
-          ArrowUp, Home, Magnet, Flame, Droplet, Wind
-        } from 'lucide-react';
-
-        // ===========================================
-        import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Activity, Globe, ChevronLeft, BookOpen, BarChart2, ArrowRight, 
   Fingerprint, Hammer, Calculator, ClipboardList, Camera, Sigma, 
@@ -102,7 +6,7 @@ import {
   MoveVertical, Cloud, Database, Info, Scale, Code, FileText, 
   Presentation, Compass, Thermometer, Map, ArrowUpRight, Layers,
   ExternalLink, Terminal, Monitor, Reply, Link, Calendar, Clock, Target, Zap,
-  ArrowUp, Home, Magnet, Flame, Droplet, Wind
+  ArrowUp, Home, Magnet, Flame, Droplet, Wind, Menu, User, Mic
 } from 'lucide-react';
 
 // ============================================================
@@ -136,6 +40,10 @@ const FormulaBlock = ({ formula }) => (
 const ImageDisplay = ({ src, alt, className, style }) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
+  
+  // 智能判斷：預設改為 object-contain (完整顯示)，除非顯式指定 object-cover
+  const fitMode = className?.includes('object-cover') ? 'object-cover' : 'object-contain';
+
   return (
     <div className={`relative overflow-hidden ${className} bg-slate-800/50`}>
       {loading && !error && (
@@ -152,7 +60,7 @@ const ImageDisplay = ({ src, alt, className, style }) => {
         <img 
           src={src} 
           alt={alt} 
-          className={`w-full h-full object-cover transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`} 
+          className={`w-full h-full ${fitMode} transition-opacity duration-500 ${loading ? 'opacity-0' : 'opacity-100'}`} 
           style={style}
           onLoad={() => setLoading(false)} 
           onError={() => { setLoading(false); setError(true); }} 
@@ -198,7 +106,12 @@ const SeismicSimulation = () => {
   const txWidth = 500;
   const txHeight = 400; 
   const maxDist = 120;
-  const maxTime = 0.15; 
+  
+  // === 優化 1: 動態計算最大時間 (Dynamic Max Time) ===
+  // 計算直達波走完 maxDist 所需的時間，並加上 20% 的緩衝空間
+  // 這樣無論 V1 多慢，線條都不會衝出圖表頂端
+  const requiredTime = maxDist / v1;
+  const maxTime = Math.max(0.15, requiredTime * 1.2); 
   
   const mapX = (val) => (val / maxDist) * txWidth;
   const mapY = (val) => txHeight - (val / maxTime) * txHeight;
@@ -216,6 +129,12 @@ const SeismicSimulation = () => {
   const tcr_val = xcr_val / v1;
   const p_xcr = { x: mapX(xcr_val), y: mapY(tcr_val) };
   const showXcr = xcr_val <= maxDist && tcr_val <= maxTime;
+
+  // === 優化 2: 動態計算 SVG 寬度 (Dynamic ViewBox Width) ===
+  // 確保當 Xcr 很遠時，模型圖不會被切掉
+  // 基本寬度 600，若圖形內容超過則自動擴展
+  const contentWidth = startX + xcr_val * scaleX + 100;
+  const dynamicSvgWidth = Math.max(svgWidth, contentWidth);
 
   return (
     <div className="bg-slate-900 rounded-3xl border border-white/10 overflow-hidden shadow-2xl mt-8">
@@ -245,16 +164,17 @@ const SeismicSimulation = () => {
            </div>
         </div>
         <div className="lg:col-span-9 p-6 flex flex-col gap-4 bg-[#0b1121]">
-           <div className="relative w-full h-64 bg-slate-900 rounded-xl border border-white/10 overflow-hidden">
-             <svg width="100%" height="100%" viewBox={`0 0 ${svgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid slice">
+           <div className="relative w-full h-64 bg-slate-900 rounded-xl border border-white/10 overflow-hidden overflow-x-auto">
+             {/* 使用 dynamicSvgWidth 確保長條圖不被裁切 */}
+             <svg width="100%" height="100%" viewBox={`0 0 ${dynamicSvgWidth} ${svgHeight}`} preserveAspectRatio="xMidYMid meet">
                 <defs><marker id="seismic-arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="white" /></marker></defs>
-                <rect x="0" y={surfaceY} width={svgWidth} height={h*scaleY} fill="#334155" opacity="0.3" />
-                <rect x="0" y={interfaceY} width={svgWidth} height={Math.max(0, svgHeight-interfaceY)} fill="#1e293b" opacity="0.5" />
-                <line x1={0} y1={surfaceY} x2={svgWidth} y2={surfaceY} stroke="#94a3b8" strokeWidth="2" strokeDasharray="5 5" opacity="0.7" />
-                <text x={svgWidth - 10} y={surfaceY - 10} fill="#94a3b8" fontSize="12" textAnchor="end">Surface (Ground)</text>
-                <line x1={0} y1={interfaceY} x2={svgWidth} y2={interfaceY} stroke="white" strokeWidth="1" strokeDasharray="4 2" />
-                <text x={svgWidth - 20} y={surfaceY + 20} fill="#fca5a5" fontSize="14" fontWeight="bold" textAnchor="end" opacity="0.8">Layer 1 (V₁)</text>
-                <text x={svgWidth - 20} y={interfaceY + 30} fill="#93c5fd" fontSize="14" fontWeight="bold" textAnchor="end" opacity="0.8">Layer 2 (V₂)</text>
+                <rect x="0" y={surfaceY} width={dynamicSvgWidth} height={h*scaleY} fill="#334155" opacity="0.3" />
+                <rect x="0" y={interfaceY} width={dynamicSvgWidth} height={Math.max(0, svgHeight-interfaceY)} fill="#1e293b" opacity="0.5" />
+                <line x1={0} y1={surfaceY} x2={dynamicSvgWidth} y2={surfaceY} stroke="#94a3b8" strokeWidth="2" strokeDasharray="5 5" opacity="0.7" />
+                <text x={dynamicSvgWidth - 10} y={surfaceY - 10} fill="#94a3b8" fontSize="12" textAnchor="end">Surface (Ground)</text>
+                <line x1={0} y1={interfaceY} x2={dynamicSvgWidth} y2={interfaceY} stroke="white" strokeWidth="1" strokeDasharray="4 2" />
+                <text x={dynamicSvgWidth - 20} y={surfaceY + 20} fill="#fca5a5" fontSize="14" fontWeight="bold" textAnchor="end" opacity="0.8">Layer 1 (V₁)</text>
+                <text x={dynamicSvgWidth - 20} y={interfaceY + 30} fill="#93c5fd" fontSize="14" fontWeight="bold" textAnchor="end" opacity="0.8">Layer 2 (V₂)</text>
                 <line x1={startX} y1={surfaceY} x2={startX} y2={interfaceY} stroke="#fb923c" strokeWidth="1.5" strokeDasharray="4 2" />
                 <text x={startX - 10} y={(surfaceY + interfaceY) / 2} fill="#fb923c" fontSize="14" fontWeight="bold" dominantBaseline="middle" textAnchor="end">h</text>
                 <line x1={A.x} y1={interfaceY} x2={A.x} y2={surfaceY + 10} stroke="white" strokeWidth="0.5" strokeDasharray="2 2" opacity="0.5" />
@@ -267,24 +187,24 @@ const SeismicSimulation = () => {
                 <text x={A.x - 10} y={A.y - 45} fill="white" fontSize="10">θc</text>
              </svg>
            </div>
-           <div className="relative w-full h-80 bg-slate-900 rounded-xl border border-white/10 p-4">
-              <svg width="100%" height="100%" viewBox={`0 0 ${txWidth} ${txHeight}`} preserveAspectRatio="none" className="overflow-visible">
-                 <line x1="0" y1={txHeight} x2={txWidth} y2={txHeight} stroke="#94a3b8" strokeWidth="2" />
-                 <line x1="0" y1={txHeight} x2="0" y2="0" stroke="#94a3b8" strokeWidth="2" />
-                 <text x="10" y="20" fill="#94a3b8" fontSize="12" fontWeight="bold">Time (s)</text>
-                 <text x={txWidth - 10} y={txHeight - 10} fill="#94a3b8" fontSize="12" fontWeight="bold" textAnchor="end">Distance (m)</text>
-                 <line x1="0" y1={txHeight} x2={p_direct_end.x} y2={p_direct_end.y} stroke="#3b82f6" strokeWidth="3" />
-                 <text x={p_direct_end.x - 10} y={p_direct_end.y - 10} fill="#3b82f6" fontSize="12">Direct (1/V₁)</text>
-                 <line x1="0" y1={p_refracted_start.y} x2={p_refracted_end.x} y2={p_refracted_end.y} stroke="#ec4899" strokeWidth="1.5" strokeDasharray="4 2" opacity="0.5" />
-                 <line x1="0" y1={p_refracted_start.y} x2={p_refracted_end.x} y2={p_refracted_end.y} stroke="#ec4899" strokeWidth="3" />
-                 <text x={p_refracted_end.x - 10} y={p_refracted_end.y - 10} fill="#ec4899" fontSize="12">Refracted (1/V₂)</text>
-                 <circle cx="0" cy={p_refracted_start.y} r="4" fill="#ec4899" stroke="white" strokeWidth="1" />
-                 <text x="10" y={p_refracted_start.y} fill="#ec4899" fontSize="14" fontWeight="bold" dominantBaseline="middle">Ti</text>
+           <div className="relative w-full h-80 bg-slate-900 rounded-xl border border-white/10 p-4 flex items-center justify-center">
+              <svg width="100%" height="100%" viewBox={`0 0 ${txWidth} ${txHeight}`} preserveAspectRatio="xMidYMid meet" className="overflow-visible">
+                 <line x1="0" y1={txHeight} x2={txWidth} y2={txHeight} stroke="#94a3b8" strokeWidth="3" />
+                 <line x1="0" y1={txHeight} x2="0" y2="0" stroke="#94a3b8" strokeWidth="3" />
+                 <text x="10" y="20" fill="#94a3b8" fontSize="14" fontWeight="bold">Time (Max: {maxTime.toFixed(2)}s)</text>
+                 <text x={txWidth - 10} y={txHeight - 10} fill="#94a3b8" fontSize="14" fontWeight="bold" textAnchor="end">Distance (m)</text>
+                 <line x1="0" y1={txHeight} x2={p_direct_end.x} y2={p_direct_end.y} stroke="#3b82f6" strokeWidth="4" />
+                 <text x={p_direct_end.x - 10} y={p_direct_end.y - 10} fill="#3b82f6" fontSize="14" fontWeight="bold">Direct (1/V₁)</text>
+                 <line x1="0" y1={p_refracted_start.y} x2={p_refracted_end.x} y2={p_refracted_end.y} stroke="#ec4899" strokeWidth="2" strokeDasharray="6 4" opacity="0.5" />
+                 <line x1="0" y1={p_refracted_start.y} x2={p_refracted_end.x} y2={p_refracted_end.y} stroke="#ec4899" strokeWidth="4" />
+                 <text x={p_refracted_end.x - 10} y={p_refracted_end.y - 10} fill="#ec4899" fontSize="14" fontWeight="bold">Refracted (1/V₂)</text>
+                 <circle cx="0" cy={p_refracted_start.y} r="5" fill="#ec4899" stroke="white" strokeWidth="2" />
+                 <text x="15" y={p_refracted_start.y} fill="#ec4899" fontSize="16" fontWeight="bold" dominantBaseline="middle">Ti</text>
                  {showXcr && (
                     <g>
-                      <line x1={p_xcr.x} y1={p_xcr.y} x2={p_xcr.x} y2={txHeight} stroke="#fbbf24" strokeWidth="1" strokeDasharray="3 3" />
+                      <line x1={p_xcr.x} y1={p_xcr.y} x2={p_xcr.x} y2={txHeight} stroke="#fbbf24" strokeWidth="2" strokeDasharray="4 4" />
                       <circle cx={p_xcr.x} cy={p_xcr.y} r="6" fill="#fbbf24" stroke="white" strokeWidth="2" />
-                      <text x={p_xcr.x} y={p_xcr.y - 15} fill="#fbbf24" fontSize="14" fontWeight="bold" textAnchor="middle">Xcr</text>
+                      <text x={p_xcr.x} y={p_xcr.y - 15} fill="#fbbf24" fontSize="16" fontWeight="bold" textAnchor="middle">Xcr</text>
                     </g>
                  )}
               </svg>
@@ -428,8 +348,12 @@ const InterpretationSimulation = () => {
   const [dRho, setDRho] = useState(1.0);
   
   const points = [];
+  // === 優化 3: 調整剖面圖參數 ===
+  // 放大 Y 軸範圍以容納負值異常 (Negative Anomaly)
+  const baseLineY = 100;
   for(let x = 0; x <= 400; x+=10) {
-    const y = 100 - (50 * dRho * Math.exp(-Math.pow((x-200)/60, 2)));
+    // 減少振幅係數 (50 -> 40) 以避免在極端值時觸底
+    const y = baseLineY - (40 * dRho * Math.exp(-Math.pow((x-200)/60, 2)));
     points.push(`${x},${y}`);
   }
   const polylinePoints = points.join(" ");
@@ -470,9 +394,10 @@ const InterpretationSimulation = () => {
         <div className="bg-[#0b1121] p-6 relative overflow-hidden flex flex-col">
            <div className="absolute top-4 left-4 px-2 py-1 bg-white/5 border border-white/5 rounded text-[10px] text-slate-500">GRAVITY PROFILE</div>
            <div className="h-32 w-full border-b border-white/10 mb-4 relative">
-             <svg width="100%" height="100%" viewBox="0 0 400 120" className="overflow-visible">
-               <line x1="0" y1="100" x2="400" y2="100" stroke="#334155" strokeDasharray="2 2" />
-               <text x="5" y="95" fill="#475569" fontSize="10">0 mGal (Background)</text>
+             {/* 增加 viewBox 高度 (120 -> 160) 以容納曲線波動 */}
+             <svg width="100%" height="100%" viewBox="0 0 400 160" className="overflow-visible">
+               <line x1="0" y1={baseLineY} x2="400" y2={baseLineY} stroke="#334155" strokeDasharray="2 2" />
+               <text x="5" y={baseLineY - 5} fill="#475569" fontSize="10">0 mGal (Background)</text>
                <polyline points={polylinePoints} fill="none" stroke={isPositive ? "#ef4444" : "#3b82f6"} strokeWidth="2" />
              </svg>
            </div>
@@ -903,7 +828,6 @@ const IntroAnimation = ({ onComplete }) => {
   );
 }
 
-
 // ============================================================
 // 4. 主要應用程式組件 (Main App)
 // ============================================================
@@ -914,6 +838,8 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
   const [targetSectionId, setTargetSectionId] = useState(null);
+  // 新增：子選單狀態，用於控制演講專區等需要第二層選單的模組
+  const [activeSubSection, setActiveSubSection] = useState(null);
 
   const topics = [
     {
@@ -946,7 +872,7 @@ export default function App() {
       content: {
         intro: '為了計算地下分層結構，我們需要建立「走時 (Travel Time)」與「距離 (Offset)」之間的數學關係。以下推導將展示如何利用司乃耳定律 (Snell\'s Law) 與幾何關係，得出雙層構造的折射波公式。',
         details: [
-          { title: '推導手稿 (Field Notes)', text: '包含幾何路徑圖示與詳細的代數運算過程。', width: 'full', isDerivationImages: true, images: [ 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%B0%8E%E5%9C%962.jpeg', 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%85%AC%E5%BC%8F%E6%8E%A8%E5%B0%8E%E5%9C%961.jpeg' ] },
+          { title: '推導手稿 (Field Notes)', text: '包含幾何路徑圖示與詳細的代數運算過程。', width: 'full', isDerivationImages: true, images: [ 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/IMG_8908.jpeg', 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/IMG_8910.jpeg' ] },
           { title: 'PART 1：臨界折射波公式推導', text: '', width: 'full', isDerivation: true, steps: [ { step: '01', title: '定義幾何路徑 (Geometry)', desc: '假設震源為 S，接收器為 G。折射波路徑為 S → A → B → G。\n其中 A, B 為臨界折射點，入射角為臨界角 θc。', math: ( <div className="flex flex-col gap-2"><div className="flex items-center gap-2 text-sm text-slate-300"><TrendingUp size={16} className="text-pink-400"/> 路徑總長 = SA + AB + BG</div><div className="flex items-center gap-2 text-sm text-slate-300">根據司乃耳定律： <span className="text-pink-300">sin θc = V₁ / V₂</span></div></div> ) }, { step: '02', title: '分段計時 (Time Segments)', desc: '將總時間 T 分解為三段：下行波(SA)、滑行波(AB)、上行波(BG)。', math: ( <div className="flex flex-col gap-2 text-sm"><div className="flex items-center gap-2"><span className="text-pink-300 font-bold">T₁</span> = <MathFraction num="h" den="V₁cosθc" /> (SA段，斜邊)</div><div className="flex items-center gap-2"><span className="text-pink-300 font-bold">T₂</span> = <MathFraction num="x - 2h tanθc" den="V₂" /> (AB段，水平距離扣除兩端)</div><div className="flex items-center gap-2"><span className="text-pink-300 font-bold">T₃</span> = <MathFraction num="h" den="V₁cosθc" /> (BG段，與 SA 對稱)</div></div> ) }, { step: '03', title: '總走時方程式 (Total Travel Time)', desc: '將三段時間相加並整理： T = T₁ + T₂ + T₃', math: ( <div className="flex flex-col gap-2 text-sm"><div className="flex items-center">T = <MathFraction num="x" den="V₂" /> + <MathFraction num="2h" den="V₁cosθc" /> - <MathFraction num="2h tanθc" den="V₂" /></div><div className="text-slate-400 text-xs">將 tanθc 換成 sinθc/cosθc 並代入 sinθc = V₁/V₂ 化簡截距項...</div><div className="p-3 mt-2 rounded-lg bg-pink-500/20 border border-pink-500/50 flex flex-col items-center"><div className="flex items-center text-lg font-bold text-white mb-1">T = <MathFraction num="x" den="V₂" /> + <span className="text-pink-300 ml-2">Tᵢ</span></div><div className="flex items-center text-sm text-pink-200">(截距時間 Tᵢ = <MathFraction num="2h√(V₂² - V₁²)" den="V₁V₂" />)</div></div></div> ) } ] },
           { title: 'PART 2：交叉距離 (Xcr) 與深度計算', text: '', width: 'full', isDerivation: true, steps: [ { step: '01', title: '交叉距離定義 (Crossover Distance)', desc: '交叉距離 (Xcr) 是指直達波與折射波同時到達接收器的位置。在此處兩者走時相等。', math: ( <div className="flex flex-col gap-3 text-sm w-full"><div className="flex items-center justify-center gap-3 text-base font-bold text-white bg-pink-500/20 p-2 rounded-lg border border-pink-500/30"><span className="font-serif italic">T<sub className="not-italic text-xs">d</sub></span> <span>=</span> <span className="font-serif italic">T<sub className="not-italic text-xs">r</sub></span><span className="text-[10px] font-normal text-pink-200 ml-1 opacity-80">(Direct Wave = Refracted Wave)</span></div><div className="flex flex-col gap-2 pl-3 border-l-2 border-pink-500/30 mt-1"><div className="flex items-center flex-wrap gap-2"><span className="text-pink-300 font-serif italic text-base">T<sub className="not-italic text-[10px]">d</sub></span> <span>=</span><MathFraction num="x" den="V₁" /><span className="text-[10px] text-slate-400 ml-1 tracking-wider uppercase">Direct Wave Time</span></div><div className="flex items-center flex-wrap gap-2"><span className="text-pink-300 font-serif italic text-base">T<sub className="not-italic text-[10px]">r</sub></span> <span>=</span><div className="flex items-center"><MathFraction num="x" den="V₂" /> <span className="mx-1">+</span> <span className="font-serif italic">T<sub className="not-italic text-[10px]">i</sub></span></div><span className="text-[10px] text-slate-400 ml-1 tracking-wider uppercase">Refracted Wave Time</span></div></div></div> ) }, { step: '02', title: '方程式聯立求解', desc: '將直達波方程式與折射波方程式相等，求解 x (即 Xcr)。', math: ( <div className="flex flex-col gap-2 text-sm"><div className="flex items-center"><MathFraction num="x" den="V₁" /> = <MathFraction num="x" den="V₂" /> + <MathFraction num="2h√(V₂² - V₁²)" den="V₁V₂" /></div><div className="text-slate-400 text-xs">移項整理 x...</div></div> ) }, { step: '03', title: '深度計算公式 (Depth Formula)', desc: '利用 Xcr 反推地層深度 h，這是折射震測最重要的應用之一。', math: ( <div className="p-3 rounded-lg bg-pink-500/20 border border-pink-500/50 flex flex-col items-center"><div className="flex items-center text-lg font-bold text-white">h = <MathFraction num="Xcr" den="2" /> <span className="mx-2">×</span> √<span className="text-xl mx-1">(</span><MathFraction num="V₂ - V₁" den="V₂ + V₁" /><span className="text-xl mx-1">)</span></div></div> ) } ] },
           { title: '互動式模擬 (Simulation)', text: '', width: 'full', isSimulation: true, component: <SeismicSimulation /> }
@@ -1005,73 +931,6 @@ export default function App() {
       }
     },
     {
-      id: 'plate-tectonics',
-      title: '板塊邊界介紹：南極板塊',
-      subtitle: 'PLATE TECTONICS',
-      icon: <Map size={40} />,
-      color: 'from-cyan-400 to-blue-500',
-      description: '深入解析南極板塊的邊界類型與地質構造特徵。',
-      content: { 
-        intro: '南極板塊是地球上最神祕的板塊之一，其邊界複雜多變，包含了張裂、聚合與轉形等多種型態。', 
-        details: [
-          { 
-            isProject: true,
-            width: 'full',
-            title: '南極板塊 (Antarctic Plate) 構造解析',
-            intro: '透過地圖與數據，我們可以發現南極板塊並非一塊靜止的冰封大陸，而是一個被活躍邊界環繞、不斷演化的動態系統。',
-            steps: [
-              { title: '1. 被「框起來」的中心', text: '南極板塊並非孤立，而是被一圈擴張脊 (Spreading Ridge)、隱沒帶 (Subduction Zone) 與轉形斷層 (Transform Fault) 包圍。周邊與太平洋、納茲卡、南美洲、非洲及澳洲板塊相互作用，形成複雜的邊界系統。', width: 'full' },
-              { title: '2. 強震沿邊界分佈', text: '地震活動主要集中在板塊邊緣，如 South Sandwich 海溝與 Macquarie 斷層帶。板塊內部則相對穩定，顯示其為剛性板塊核心。', width: 'half' },
-              { title: '3. 擴張脊的幾何運動', text: '環繞南極的擴張脊大多呈現「發散」狀態，意味著新生洋殼不斷從四周生成並推擠，使南極板塊面積持續擴大。', width: 'half' }
-            ],
-            gallery: [
-              { title: '圖一：南極板塊球狀視圖', text: '從南極上空俯瞰，可見其被中洋脊與海溝系統完整包圍的獨特幾何形狀。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(1).png' },
-              { title: '圖二：板塊邊界展開圖', text: '將地球展開為矩形，更清晰地展示了南極板塊與周邊六大板塊的接觸關係與相對運動方向。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(2).png' }
-            ]
-          },
-          { 
-            isProject: true, 
-            width: 'full',
-            title: 'Python PyGMT 繪圖實作',
-            intro: '利用 Python 的 PyGMT 套件，整合地形、地震與火山數據，繪製出高品質的南極板塊構造圖。',
-            steps: [
-              { title: '資料來源', text: '使用 ETOPO1 地形資料庫，結合 USGS 地震目錄與全球火山數據庫。', width: 'half' },
-              { title: '程式碼開源', text: '完整繪圖程式碼已上傳至 GitHub，供同學參考與複現。\n\nRepository: plot_plate_boundary_pygmt', width: 'half' }
-            ],
-            codeSnippet: `import pygmt\nimport pandas as pd\n\n# 定義繪圖區域與投影\nregion = [-180, 180, -90, -50]\nprojection = "S0/-90/15c"\n\nfig = pygmt.Figure()\n\n# 繪製地形底圖\ngrid = pygmt.datasets.load_earth_relief(resolution="10m", region=region)\nfig.grdimage(grid=grid, projection=projection, cmap="geo", shading=True)\n\n# 繪製海岸線\nfig.coast(shorelines=True, frame=True)\n\n# 標示火山與地震...\nfig.show()`,
-            gallery: [
-               { title: '實作成果：南極板塊構造圖', text: '圖中清楚呈現了南極大陸的高聳冰蓋地形 (白色區域)，以及周邊深邃的海盆 (藍色區域)。紅色三角形標示了活火山 (如 Erebus)，黃色圓點則標示了歷史強震位置。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(5).png' }
-            ],
-            embed: { title: 'GitHub 程式碼倉庫', url: 'https://github.com/oceanicdayi/plot_plate_boundary_pygmt' }
-          },
-          {
-             isProject: true,
-             width: 'full',
-             title: '板塊邊界種類與地形景觀',
-             intro: '南極板塊周邊展示了地質學上三大類板塊邊界的經典案例，造就了多樣的海底地形。',
-             steps: [
-               { title: '1. 發散型 (Divergent)', text: '● 過程：板塊張裂，岩漿上湧。\n● 地形：中洋脊 (Mid-Ocean Ridge)、裂谷。\n● 實例：太平洋-南極洋脊 (Pacific-Antarctic Ridge)，是板塊邊界的主流型態。', width: 'full' },
-               { title: '2. 聚合型 (Convergent)', text: '● 過程：板塊隱沒，造成地殼縮短。\n● 地形：海溝 (Trench)、火山弧 (Volcanic Arc)。\n● 實例：South Sandwich 海溝，伴隨深源地震與活躍火山。', width: 'full' },
-               { title: '3. 轉形型 (Transform)', text: '● 過程：板塊水平錯動，無新生或消滅。\n● 地形：斷裂帶 (Fracture Zone)、線狀海脊。\n● 實例：Macquarie 斷層帶，連接了擴張脊與隱沒帶的轉換樞紐。', width: 'full' }
-             ]
-          },
-          {
-            isProject: true,
-            width: 'full',
-            title: '11/02 補充：PyGMT 地形起伏優化實作',
-            intro: '今天上課老師說明完後，利用老師 GitHub 的資源進行 Fork，並在 Google Colab 上重新生成。完成之後發現圖片質感顯著提升，地形起伏的細節也表現得更加明顯。',
-            steps: [
-              { title: 'GPT 提示詞策略', text: '「我想再生成一次南極板塊的那個 PyGMT 圖，然後希望這次可以加上一些地形高低起伏的樣子，剛剛已經用 Google Colab 把 PyGMT 的一些環境生成了。」', width: 'full' }
-            ],
-            gallery: [
-               { title: '實作過程：Google Colab 環境建置', text: '在 Colab 中配置 PyGMT 環境並執行繪圖程式碼。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(4).png' },
-               { title: '實作結果：高解析地形起伏圖', text: '優化後的成果圖，清晰展示了南極大陸與周邊海床的地形紋理與起伏。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(3).png' }
-            ]
-          }
-        ] 
-      }
-    },
-    {
       id: 'rock-magnetism',
       title: '地磁測勘與古地磁學',
       subtitle: 'PALEOMAGNETISM',
@@ -1092,26 +951,15 @@ export default function App() {
             ]
           },
           {
-            title: '岩石磁性的種類 (Magnetization Types)',
-            width: 'full',
-            isProcess: true,
-            steps: [
-              { title: '熱剩磁 (TRM)', desc: 'Thermo-Remanent Magnetization\n火成岩（如玄武岩）從岩漿冷卻，當溫度低於「居里溫度 (Curie Temp, ~580°C)」時，磁性礦物會依當時地磁方向排列並鎖定。這是最強、最穩定的紀錄。', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Igneous_rock_formation_MBL.jpg/640px-Igneous_rock_formation_MBL.jpg' },
-              { title: '沉積剩磁 (DRM)', desc: 'Detrital Remanent Magnetization\n磁性顆粒在沉積過程中，像微小指北針一樣受地磁引導，在落入水底並被壓實膠結後，保留了當時的磁場方向。', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Sedimentary_Rock_Cycle.svg/640px-Sedimentary_Rock_Cycle.svg.png' },
-              { title: '化學剩磁 (CRM)', desc: 'Chemical Remanent Magnetization\n岩石形成後，因化學換質作用（如氧化、重結晶）生成新的磁性礦物，這些新礦物會記錄下「換質發生時」的磁場方向。', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Banded_iron_formation_Dales_Gorge.jpg/640px-Banded_iron_formation_Dales_Gorge.jpg' },
-              { title: '等溫剩磁 (IRM)', desc: 'Isothermal Remanent Magnetization\n岩石在定溫下受到短暫強磁場（如閃電）磁化所留下的磁性。這通常是我們在實驗室中試圖消除的雜訊。', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Fulgurite1.jpg/640px-Fulgurite1.jpg' }
-            ]
-          },
-          {
-             title: '互動實作：古緯度計算機',
-             width: 'full',
-             isCustomComp: true,
-             component: <PaleoMagCalculator />
+              title: '互動實作：古緯度計算機',
+              width: 'full',
+              isCustomComp: true,
+              component: <PaleoMagCalculator />
           },
           {
             title: '海底擴張學說與磁條帶 (Magnetic Stripes)',
             text: '1963年，Vine 與 Matthews 提出了解釋海底磁力異常的假說，成為板塊構造學說的關鍵證據。\n\n● 原理：中洋脊不斷湧出岩漿形成新地殼，冷卻時記錄了當時的地磁極性（正向或反向）。\n● 現象：隨著海底擴張，這些地殼被推向兩側，形成了一系列平行於中洋脊、正反極性交替的「磁條帶」。\n● 意義：這就像是一捲巨大的錄音帶，忠實記錄了地球磁場百萬年來的倒轉歷史，也證實了海底確實正在擴張。',
-            image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Sea_floor_spreading_model.svg/1200px-Sea_floor_spreading_model.svg.png',
+            image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/Gemini_Generated_Image_diwu5mdiwu5mdiwu.png',
             width: 'full'
           },
           {
@@ -1211,58 +1059,99 @@ export default function App() {
       }
     },
     {
-      id: 'geothermal-method',
-      title: '地熱探勘與熱流測量',
-      subtitle: 'GEOTHERMAL & HEAT FLOW',
-      icon: <Flame size={40} />,
-      color: 'from-orange-500 to-red-600',
-      description: '從地溫梯度到熱流計算，探索地球內部的熱能釋放機制與地熱資源潛能。',
-      content: {
-        intro: '地熱流 (Heat Flow) 是地球內部熱能傳遞至地表的速率。它是了解地球內部動力學（如地函對流、板塊冷卻）的關鍵參數，也是評估地熱能源開發潛力的核心指標。',
+      id: 'plate-tectonics',
+      title: '板塊邊界介紹：南極板塊',
+      subtitle: 'PLATE TECTONICS',
+      icon: <Map size={40} />,
+      color: 'from-cyan-400 to-blue-500',
+      description: '深入解析南極板塊的邊界類型與地質構造特徵。',
+      content: { 
+        intro: '南極板塊是地球上最神祕的板塊之一，其邊界複雜多變，包含了張裂、聚合與轉形等多種型態。', 
+        details: [
+          { 
+            isProject: true,
+            width: 'full',
+            title: '南極板塊 (Antarctic Plate) 構造解析',
+            intro: '透過地圖與數據，我們可以發現南極板塊並非一塊靜止的冰封大陸，而是一個被活躍邊界環繞、不斷演化的動態系統。',
+            steps: [
+              { title: '1. 被「框起來」的中心', text: '南極板塊並非孤立，而是被一圈擴張脊 (Spreading Ridge)、隱沒帶 (Subduction Zone) 與轉形斷層 (Transform Fault) 包圍。周邊與太平洋、納茲卡、南美洲、非洲及澳洲板塊相互作用，形成複雜的邊界系統。', width: 'full' },
+              { title: '2. 強震沿邊界分佈', text: '地震活動主要集中在板塊邊緣，如 South Sandwich 海溝與 Macquarie 斷層帶。板塊內部則相對穩定，顯示其為剛性板塊核心。', width: 'half' },
+              { title: '3. 擴張脊的幾何運動', text: '環繞南極的擴張脊大多呈現「發散」狀態，意味著新生洋殼不斷從四周生成並推擠，使南極板塊面積持續擴大。', width: 'half' }
+            ],
+            gallery: [
+              { title: '圖一：南極板塊球狀視圖', text: '從南極上空俯瞰，可見其被中洋脊與海溝系統完整包圍的獨特幾何形狀。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(1).png' },
+              { title: '圖二：板塊邊界展開圖', text: '將地球展開為矩形，更清晰地展示了南極板塊與周邊六大板塊的接觸關係與相對運動方向。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(2).png' }
+            ]
+          },
+          { 
+            isProject: true,
+            width: 'full',
+            title: 'Python PyGMT 繪圖實作',
+            intro: '利用 Python 的 PyGMT 套件，整合地形、地震與火山數據，繪製出高品質的南極板塊構造圖。',
+            steps: [
+              { title: '資料來源', text: '使用 ETOPO1 地形資料庫，結合 USGS 地震目錄與全球火山數據庫。', width: 'half' },
+              { title: '程式碼開源', text: '完整繪圖程式碼已上傳至 GitHub，供同學參考與複現。\n\nRepository: plot_plate_boundary_pygmt', width: 'half' }
+            ],
+            codeSnippet: `import pygmt\nimport pandas as pd\n\n# 定義繪圖區域與投影\nregion = [-180, 180, -90, -50]\nprojection = "S0/-90/15c"\n\nfig = pygmt.Figure()\n\n# 繪製地形底圖\ngrid = pygmt.datasets.load_earth_relief(resolution="10m", region=region)\nfig.grdimage(grid=grid, projection=projection, cmap="geo", shading=True)\n\n# 繪製海岸線\nfig.coast(shorelines=True, frame=True)\n\n# 標示火山與地震...\nfig.show()`,
+            gallery: [
+               { title: '實作成果：南極板塊構造圖', text: '圖中清楚呈現了南極大陸的高聳冰蓋地形 (白色區域)，以及周邊深邃的海盆 (藍色區域)。紅色三角形標示了活火山 (如 Erebus)，黃色圓點則標示了歷史強震位置。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(5).png' }
+            ],
+            embed: { title: 'GitHub 程式碼倉庫', url: 'https://github.com/oceanicdayi/plot_plate_boundary_pygmt' }
+          },
+          {
+             isProject: true,
+             width: 'full',
+             title: '板塊邊界種類與地形景觀',
+             intro: '南極板塊周邊展示了地質學上三大類板塊邊界的經典案例，造就了多樣的海底地形。',
+             steps: [
+               { title: '1. 發散型 (Divergent)', text: '● 過程：板塊張裂，岩漿上湧。\n● 地形：中洋脊 (Mid-Ocean Ridge)、裂谷。\n● 實例：太平洋-南極洋脊 (Pacific-Antarctic Ridge)，是板塊邊界的主流型態。', width: 'full' },
+               { title: '2. 聚合型 (Convergent)', text: '● 過程：板塊隱沒，造成地殼縮短。\n● 地形：海溝 (Trench)、火山弧 (Volcanic Arc)。\n● 實例：South Sandwich 海溝，伴隨深源地震與活躍火山。', width: 'full' },
+               { title: '3. 轉形型 (Transform)', text: '● 過程：板塊水平錯動，無新生或消滅。\n● 地形：斷裂帶 (Fracture Zone)、線狀海脊。\n● 實例：Macquarie 斷層帶，連接了擴張脊與隱沒帶的轉換樞紐。', width: 'full' }
+             ]
+          },
+          {
+            isProject: true,
+            width: 'full',
+            title: '11/02 補充：PyGMT 地形起伏優化實作',
+            intro: '今天上課老師說明完後，利用老師 GitHub 的資源進行 Fork，並在 Google Colab 上重新生成。完成之後發現圖片質感顯著提升，地形起伏的細節也表現得更加明顯。',
+            steps: [
+              { title: 'GPT 提示詞策略', text: '「我想再生成一次南極板塊的那個 PyGMT 圖，然後希望這次可以加上一些地形高低起伏的樣子，剛剛已經用 Google Colab 把 PyGMT 的一些環境生成了。」', width: 'full' }
+            ],
+            gallery: [
+               { title: '實作過程：Google Colab 環境建置', text: '在 Colab 中配置 PyGMT 環境並執行繪圖程式碼。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(4).png' },
+               { title: '實作結果：高解析地形起伏圖', text: '優化後的成果圖，清晰展示了南極大陸與周邊海床的地形紋理與起伏。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(3).png' }
+            ]
+          }
+        ] 
+      }
+    },
+    {
+      id: 'geothermal-exploration',
+      title: '地熱探勘與測量',
+      subtitle: 'MEASUREMENT & METHODS',
+      icon: <Zap size={40} />,
+      color: 'from-yellow-500 to-amber-600',
+      description: '如何測量地球的體溫？從傅立葉定律到深海探針。',
+      content: { 
+        intro: '地殼熱流無法直接測量，必須透過測量「溫度梯度」與「熱導率」兩個參數，再利用物理定律計算得出。', 
         details: [
           {
-             title: '地殼熱流計算機 (Heat Flow Calculator)',
-             width: 'full',
-             isCustomComp: true,
-             component: <HeatFlowCalculator />
-          },
-          {
-             title: '全球熱流分布特徵 (Global Distribution)',
-             width: 'full',
-             isCustomComp: true,
-             component: <GlobalHeatFlowMap />
-          },
-          {
-            title: '地熱探勘實務圖集 (Exploration Gallery)',
+            title: '測量原理：傅立葉定律 (Fourier\'s Law)',
+            text: '',
             width: 'full',
-            isChartGroup: true,
-            charts: [
+            isFormula: true,
+            formulas: [
               { 
-                title: '圖一：地溫梯度測量 (Temperature Gradient)', 
-                text: '此圖展示了隨深度變化的溫度紀錄曲線（T-D Curve）。\n\n● 重點分析：\n1. 線性增溫：在淺部地層，溫度通常隨深度線性增加。\n2. 梯度變化：若曲線斜率發生改變，通常暗示岩性改變（熱導率不同）或有地下水流動干擾。\n3. 應用：透過計算此曲線的斜率 (dT/dz)，我們能獲得該測站的精確地溫梯度值。',
-                image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed.jpg' 
-              },
-              { 
-                title: '圖二：岩石熱導率分析 (Thermal Conductivity)', 
-                text: '實驗室針對鑽井取出的岩芯樣本進行熱導率 (k) 測量。\n\n● 重點分析：\n1. 岩性控制：不同岩石（如砂岩、頁岩、玄武岩）具有不同的導熱能力。\n2. 孔隙度影響：孔隙含水會顯著改變岩石的整體熱導率。\n3. 數據整合：必須測量對應深度的岩石熱導率，才能與地溫梯度結合作出正確的熱流計算。',
-                image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(1).jpg' 
-              },
-              { 
-                title: '圖三：布拉德圖分析 (Bullard Plot)', 
-                text: '這是一種更進階的熱流計算方法，用於處理分層介質。\n\n● 重點分析：\n1. 原理：將溫度 (T) 對熱阻 (Thermal Resistance) 作圖。\n2. 優勢：若地層由多層不同熱導率的岩石組成，傳統的 q = -k(dT/dz) 難以直接應用。Bullard Plot 能將多層整合成一條直線。\n3. 結果：該直線的斜率即為該區域的平均熱流值 (Heat Flow)。',
-                image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(2).jpg' 
-              },
-              { 
-                title: '圖四：地溫分佈與異常 (Thermal Anomaly)', 
-                text: '將多口測井的數據整合，繪製出區域性的地溫等值線圖。\n\n● 重點分析：\n1. 熱點識別：圖中顏色較深或數值較高的區域（如紅色區塊），代表地溫異常偏高。\n2. 構造關聯：這些高溫區通常與斷層帶、岩漿庫或深部熱流體通道有關。\n3. 探勘目標：這些異常區即為地熱發電廠選址的潛力目標區。',
-                image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(3).jpg' 
-              },
-              { 
-                title: '圖五：地熱潛能綜合評估 (Geothermal Potential)', 
-                text: '結合地質模型、地球物理數據與地球化學分析的最終成果圖。\n\n● 重點分析：\n1. 3D 模型：展示地下儲集層 (Reservoir) 的空間分佈與深度。\n2. 封蓋層 (Cap Rock)：確認是否有緻密岩層能將熱能與流體封存於地下。\n3. 決策依據：評估可開發的熱能總量（MW），決定生產井的鑽探位置與深度。',
-                image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(4).jpg' 
+                label: '一維熱傳導公式', 
+                math: <div className="flex items-center text-2xl">q = -k <MathFraction num="dT" den="dz" /></div>, 
+                desc: 'q: 熱流 (Heat Flow, mW/m²)。 k: 熱導率 (Thermal Conductivity)。 dT/dz: 溫度梯度 (Temperature Gradient)。負號代表熱由高溫流向低溫。' 
               }
             ]
+          },
+          {
+            width: 'full',
+            isCustomComp: true, // Use custom component for interactive calculator
+            component: <HeatFlowCalculator />
           },
           {
             title: '測量方法與挑戰 (Methods)',
@@ -1286,8 +1175,24 @@ export default function App() {
                 width: 'full' 
               }
             ]
+          },
+          {
+            isProject: true,
+            width: 'full',
+            title: 'Dify 地熱知識庫建置：關鍵流程整理',
+            intro: '結合最新的 AI 工具，利用 Dify 平台搭建專門回答地熱探勘相關問題的知識庫機器人。透過 RAG (Retrieval-Augmented Generation) 技術，讓 AI 能依據上傳的專業文獻進行準確回答。以下為建置過程的關鍵步驟解析。',
+            steps: [
+              { title: '建置目標', text: '建立一個能夠理解地熱探勘原理、測量方法與案例的 AI 助手。', width: 'full' }
+            ],
+            gallery: [
+               { title: '步驟 1: Dify 專案後台建置', text: '建立新的對話應用程式，設定機器人名稱與圖示，準備開始建置專屬的地熱知識庫。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed.jpg' },
+               { title: '步驟 2: 知識庫 (Knowledge) 匯入', text: '將地熱探勘相關的 PDF 文獻、課堂講義匯入系統。Dify 會自動進行文字分段 (Chunking) 與向量化處理，讓 AI 讀懂專業內容。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(1).jpg' },
+               { title: '步驟 3: 提示詞工程 (Prompt Engineering)', text: '設定 AI 的角色（如：地熱探勘專家），並在 Prompt 中規範其回答必須優先引用知識庫內容，避免產生幻覺 (Hallucination)。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(2).jpg' },
+               { title: '步驟 4: 對話除錯與優化', text: '在右側預覽視窗進行測試，詢問關於「熱導率測量」或「溫度梯度」的問題，觀察 AI 的檢索引用來源是否準確。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(3).jpg' },
+               { title: '步驟 5: 最終成果展示', text: '成功部署的地熱知識小幫手，能流暢地回答複雜的地物問題，成為學習與研究的強力輔助工具。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/unnamed%20(4).jpg' }
+            ]
           }
-        ]
+        ] 
       }
     },
     {
@@ -1311,32 +1216,71 @@ export default function App() {
               { title: '步驟 3: 提交作業 (Pull Request)', text: '1. 發起 PR: 回到 GitHub 頁面，點擊 "Compare & pull request"。\n2. 確認分支: Base 為老師的 Repo，Head 為你的 Fork Repo。\n3. 填寫內容: 說明作業目的、方法與結果。\n4. 審核: 老師 Review 後會 Approve 或 Request Changes，若需修改，在 Codespace 更新並執行腳本即可。', width: 'full' }
             ],
             gallery: [
-              { title: '1. Codespace 開發環境', text: '展示 GitHub Codespace 的線上 VS Code 介面，包含左側檔案總管與右側的 Terminal 執行畫面。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/github%E5%9C%96%E7%89%872%20(1).png' },
-              { title: '2. ObsPy 波形處理', text: '使用 ObsPy 套件讀取並繪製的地震波形紀錄，顯示了不同測站接收到的地震訊號。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/github%E5%9C%96%E7%89%872%20(2).png' },
-              { title: '3. PyGMT 地圖繪製', text: '利用 PyGMT 繪製的台灣地區地形圖與震央分佈，展示了高品質的地理資訊視覺化成果。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/github%E5%9C%96%E7%89%873.png' }
+              { title: '1. Codespace 開發環境', text: '展示 GitHub Codespace 的線上 VS Code 介面，包含左側檔案總管與右側的 Terminal 執行畫面。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-10-08%20120335.png' },
+              { title: '2. ObsPy 波形處理', text: '使用 ObsPy 套件讀取並繪製的地震波形紀錄，顯示了不同測站接收到的地震訊號。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/image.png' },
+              { title: '3. PyGMT 地圖繪製', text: '利用 PyGMT 繪製的台灣地區地形圖與震央分佈，展示了高品質的地理資訊視覺化成果。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/image%20(1).png' }
             ]
           },
           { 
-            isProject: true, 
+            isEmbed: true, 
             width: 'full',
             title: '實作二：在 GitHub 上製作 PyGMT 教學網站',
-            intro: '利用 GitHub Pages 服務，將原本單調的 Markdown 文件轉換為精美的靜態網站。本實作建立了一個 PyGMT 的學習筆記網站，分享繪圖經驗與程式碼片段。',
-            gallery: [
-               { title: '實作過程', text: '透過 VS Code 編輯 Markdown 文件，並利用 MkDocs 套件將筆記轉換為靜態網頁，最後部署至 GitHub Pages。', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-11-12%20203009.png' }
-            ],
-            embed: { title: 'PyGMT 小宇宙 (網站成果)', url: 'https://jinjia0618.github.io/pygmy_learning/' }
+            url: 'https://jinjia0618.github.io/pygmy_learning/' 
           },
           {
             id: 'project-3', 
-            isProject: true,
+            isEmbed: true,
             width: 'full',
             title: '實作三：重力測勘作業-github-pages',
-            linkTo: 'gravity-method',
-            intro: '本作業旨在練習重力異常的計算流程。影片中詳細講解了如何將觀測到的重力數據，經過緯度修正、自由空間校正 (FAC) 與布格校正 (BC)，最終求得布格異常值。同學需將計算過程與結果繪製成圖表，並製作成網頁報告。',
-            questionImage: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-11-30%20212805.png',
-            embed: { title: '重力測勘計算成果', url: 'https://jinjia0618.github.io/Homework-7_calculate_gravity/' }
+            url: 'https://jinjia0618.github.io/Homework-7_calculate_gravity/',
+            questionImage: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-12-10%20235431.png'
           }
         ] 
+      }
+    },
+    {
+      id: 'google-blogger',
+      title: 'GoogleBlogger實作',
+      subtitle: 'WEB PUBLISHING',
+      icon: <FileText size={40} />,
+      color: 'from-orange-400 to-amber-600',
+      description: '利用 Google Blogger 建立個人學術部落格與實驗紀錄。',
+      content: { 
+        intro: '透過 Google Blogger，我們可以快速建立個人學術網站，紀錄學習歷程與分享專業知識。以下是本學期的「地球物理通論」完整授課大綱網站實作成果。', 
+        details: [
+          {
+            isSyllabus: true,
+            width: 'full',
+            title: '113-1 地球物理學授課大綱',
+            courseLink: 'https://huggingface.co/spaces/cwadayi/Geophysics_class',
+            schedule: [
+              { week: 1, date: '9/10', title: '課程介紹 & 環境建置', knowledge: '地球物理概要', skills: 'Python, Google/HF/Github, Colab, Codespace, Dify', tools: [<Terminal size={14}/>, <Cloud size={14}/>] },
+              { week: 2, date: '9/17', title: '折射探勘學基礎', knowledge: '折射探勘原理', skills: 'PyGMT, ObsPy, Streamlit, Gradio', tools: [<Activity size={14}/>, <Code size={14}/>] },
+              { week: 3, date: '9/24', title: '校園野外實驗', knowledge: '折射探勘實作', skills: '儀器操作, 數據採集', tools: [<Hammer size={14}/>, <Map size={14}/>] },
+              { week: 4, date: '10/1', title: '地球物理專題演講', knowledge: '專家講座', skills: '心得撰寫, 提問交流', tools: [<Presentation size={14}/>] },
+              { week: 5, date: '10/8', title: '折射探勘進階', knowledge: '資料分析', skills: 'Hugging Face Space 互動程式製作', tools: [<Globe size={14}/>, <Zap size={14}/>] },
+              { week: 6, date: '10/15', title: '重力探勘學 (一)', knowledge: '重力測量原理', skills: 'Colab 使用與數據處理', tools: [<Scale size={14}/>, <Cloud size={14}/>] },
+              { week: 7, date: '10/22', title: '重力探勘學 (二)', knowledge: '重力異常修正', skills: 'Github 與 Codespace 協作', tools: [<Scale size={14}/>, <Code size={14}/>] },
+              { week: 8, date: '10/29', title: '期中考週', knowledge: '筆試測驗', skills: '觀念整合', tools: [<FileText size={14}/>] },
+              { week: 9, date: '11/05', title: '板塊構造與地震 (一)', knowledge: '全球板塊運動', skills: 'PyGMT 地圖繪製', tools: [<Globe size={14}/>, <Map size={14}/>] },
+              { week: 10, date: '11/12', title: '板塊構造與地震 (二)', knowledge: '震源機制', skills: 'PyGMT 進階繪圖', tools: [<Activity size={14}/>, <Map size={14}/>] },
+              { week: 11, date: '11/19', title: '板塊與地磁 (一)', knowledge: '古地磁學', skills: 'ObsPy 波形處理', tools: [<Compass size={14}/>, <Activity size={14}/>] },
+              { week: 12, date: '11/26', title: '板塊與地磁 (二)', knowledge: '磁力異常', skills: 'ObsPy 進階應用', tools: [<Compass size={14}/>, <Code size={14}/>] },
+              { week: 13, date: '12/3', title: '板塊與地熱 (一)', knowledge: '地熱資源', skills: 'Gemini API 申請, Dify 應用', tools: [<Thermometer size={14}/>, <Zap size={14}/>] },
+              { week: 14, date: '12/10', title: '板塊與地熱 (二)', knowledge: '地熱探勘', skills: 'Dify 知識庫建置', tools: [<Thermometer size={14}/>, <Database size={14}/>] },
+              { week: 15, date: '12/17', title: '期末專題發表', knowledge: '成果展示', skills: '簡報技巧, 網站部署', tools: [<Presentation size={14}/>, <Globe size={14}/>] },
+              { week: 16, date: '12/24', title: '行憲紀念日', knowledge: '放假一日', skills: '-', tools: [<Calendar size={14}/>] },
+              { week: 17, date: '12/31', title: '彈性教學週', knowledge: '自主學習', skills: '期末報告修訂', tools: [<BookOpen size={14}/>] },
+              { week: 18, date: '1/7', title: '野外參訪 (暫定)', knowledge: '大屯火山觀測中心', skills: '實地考察', tools: [<Mountain size={14}/>] },
+            ]
+          },
+          { 
+            isEmbed: true, 
+            title: 'Hugging Face 課程空間 (實作成果)', 
+            url: 'https://huggingface.co/spaces/cwadayi/Geophysics_class', 
+            width: 'full' 
+          }
+        ]
       }
     },
     {
@@ -1345,94 +1289,79 @@ export default function App() {
       subtitle: 'GUEST LECTURE SERIES',
       icon: <Presentation size={40} />,
       color: 'from-purple-500 to-indigo-600',
-      description: '邀請領域專家分享前沿研究：地震層析成像、實務觀測與 AI 地震學。',
-      content: {
-        intro: '本專區收錄了學期中邀請的三位傑出地球物理學家演講精華。這些演講涵蓋了從理論模擬到野外實務，再到最前沿的 AI 應用，展現了地球物理學多元的發展面向。',
-        details: []
-      },
-      subTopics: [
-        {
-          id: 'lecture-kan',
-          title: '甘禮友博士',
-          subtitle: 'EARTHQUAKE TOMOGRAPHY',
-          icon: <Activity size={40} />,
-          color: 'from-blue-500 to-cyan-500',
-          description: '地震層析成像與地球內部構造：從理論到應用。',
-          content: {
-            intro: '特邀甘禮友博士分享地球物理領域的前沿研究與經驗，深入淺出地介紹了地震層析成像在現代科學中的應用。',
-            details: [
-              { 
-                isProject: true,
-                width: 'full',
-                title: '演講重點：地震層析成像',
-                intro: '利用地震波速度的變化來「斷層掃描」地球內部，揭示了隱沒帶與板塊構造的深部幾何形狀。',
-                steps: [
-                  { title: '心得反思：從災害模擬到地球物理機制', text: '高中時期的研究多聚焦於災害模擬，進入大學後接觸地球物理，才發現背後需要深厚的數學與程式基礎。甘博士的演講展現了地震層析成像的複雜性，雖然目前對波動方程與反演算法感到吃力，但博士分享的求學歷程——『花費數年一點一滴累積』——給了我很大的鼓舞。這場演講不僅是知識的傳遞，更是一劑強心針，提醒我們在學術道路上，堅持比天賦更重要。', width: 'full' }
-                ],
-                gallery: [
-                  { title: '圖表 1: 地震波陰影帶 (Shadow Zone)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%871.png', text: '此圖展示了地震波在地球內部的傳播路徑。當地震發生時，波傳遞至液態外核 (Liquid Outer Core)：\n● S波 (剪力波)：無法穿透液體，因此在震央角 103° 之後完全消失。\n● P波 (壓力波)：雖然能穿透，但因在液體中速度大幅下降而產生劇烈折射。\n這導致在震央角 103° 至 142° 之間，地表接收不到直達的 P 波。這些「陰影帶」的存在，是科學家證實地球擁有「液態外核」的關鍵鐵證。' },
-                  { title: '圖表 2: 介質複雜度與波形 (Wave Complexity)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%872.png', text: '這張圖說明了地下介質的構造如何影響地震波紀錄 (Seismogram)：\n1. 均質介質 (Homogeneous)：波路徑單純，波形乾淨簡單。\n2. 層狀介質 (Layered)：波在層界面產生多次反射與折射，紀錄開始變長。\n3. 異質介質 (Heterogeneous)：真實地層充滿不均勻體 (如岩塊、裂隙)，導致波產生強烈散射 (Scattering)。這解釋了為何真實的地震紀錄往往充滿了複雜的「尾波 (Coda Waves)」與雜訊，也凸顯了訊號處理在探勘中的重要性。' },
-                  { title: '圖表 3: 台灣板塊隱沒裂口 (Slab Gap)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%873.png', text: '這張圖聚焦於台灣東北部極其複雜的板塊構造。台灣位於歐亞板塊 (Eurasian Plate) 與菲律賓海板塊 (Philippine Sea Plate) 的交界，這兩個板塊發生了「隱沒極性反轉 (Subduction Polarity Reversal)」：\n● 南邊：菲律賓海板塊隱沒至歐亞板塊之下。\n● 東北邊：歐亞板塊隱沒至菲律賓海板塊之下。\n這種撕裂與扭轉，導致在花蓮外海深處，隱沒的板塊出現了一個「裂口 (Slab Gap)」。這個特殊的構造通道，允許深部熱物質上湧，是形成龜山島與大屯火山群的潛在熱源機制。' }
-                ]
-              }
-            ]
+      description: '特邀地球物理領域專家，分享前沿研究與職涯經驗。',
+      subMenu: true, // 啟用子選單模式
+      content: { 
+        intro: '本學期邀請了三位來自不同領域的專家學者，深入淺出地介紹地球物理在現代科學中的應用，從地震層析成像到地熱資源開發，啟發了我們對地球內部構造的無限想像。', 
+        details: [
+          {
+            isSpeaker: true,
+            width: 'full',
+            name: '甘禮有 博士',
+            title: '特聘研究員',
+            org: '中央研究院 地球科學研究所',
+            topic: '地震層析成像與地球內部構造',
+            intro: '甘博士深入淺出地介紹了地球物理在現代科學中的應用，特別是在地震層析成像領域的發展。',
+            content: {
+              text: '聽完演講後，與其說是成就感，更多的是一種對自身能力不足的焦慮。高中時我做山腳斷層專題主要關注災害模擬，未曾深入物理算式；如今大二接觸地球物理，面對演講中艱深的數學與 Coding 要求，我不禁懷疑自己的數學底子是否足夠。\n\n但甘博士的一席話深深打動了我：他提到自己當初理解地震層析也花了好幾年，是一點一滴累積起來的。這讓我釋懷了不少——現在聽不懂是正常的，重點在於面對困難時的態度。雖然未來的課程（如推動折射波）難度可能更高，但我相信只要堅持不懈、積極尋求資源，在這條路上一定能有所收穫。',
+              charts: [
+                { title: '圖表 1: 地震波陰影帶 (Shadow Zone)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%871.png', text: '此圖展示了地震波在地球內部的傳播路徑。當地震發生時，波傳遞至液態外核 (Liquid Outer Core)：\n● S波 (剪力波)：無法穿透液體，因此在震央角 103° 之後完全消失。\n● P波 (壓力波)：雖然能穿透，但因在液體中速度大幅下降而產生劇烈折射。\n這導致在震央角 103° 至 142° 之間，地表接收不到直達的 P 波。這些「陰影帶」的存在，是科學家證實地球擁有「液態外核」的關鍵鐵證。' },
+                { title: '圖表 2: 介質複雜度與波形 (Wave Complexity)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%872.png', text: '這張圖說明了地下介質的構造如何影響地震波紀錄 (Seismogram)：\n1. 均質介質 (Homogeneous)：波路徑單純，波形乾淨簡單。\n2. 層狀介質 (Layered)：波在層界面產生多次反射與折射，紀錄開始變長。\n3. 異質介質 (Heterogeneous)：真實地層充滿不均勻體 (如岩塊、裂隙)，導致波產生強烈散射 (Scattering)。這解釋了為何真實的地震紀錄往往充滿了複雜的「尾波 (Coda Waves)」與雜訊，也凸顯了訊號處理在探勘中的重要性。' },
+                { title: '圖表 3: 台灣板塊隱沒裂口 (Slab Gap)', image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E6%BC%94%E8%AC%9B%E5%9C%96%E7%89%873.png', text: '這張圖聚焦於台灣東北部極其複雜的板塊構造。台灣位於歐亞板塊 (Eurasian Plate) 與菲律賓海板塊 (Philippine Sea Plate) 的交界，這兩個板塊發生了「隱沒極性反轉 (Subduction Polarity Reversal)」：\n● 南邊：菲律賓海板塊隱沒至歐亞板塊之下。\n● 東北邊：歐亞板塊隱沒至菲律賓海板塊之下。\n這種撕裂與扭轉，導致在花蓮外海深處，隱沒的板塊出現了一個「裂口 (Slab Gap)」。這個特殊的構造通道，允許深部熱物質上湧，是形成龜山島與大屯火山群的潛在熱源機制。' }
+              ]
+            }
+          },
+          {
+            isSpeaker: true,
+            width: 'full',
+            name: '黃有志 博士',
+            title: '教授',
+            org: '國立台灣大學 地質科學系',
+            topic: '地震災害與火山防災',
+            intro: '黃博士以親民的方式，透過熊本地震、阿蘇火山等案例，深入淺出地剖析了前震-主震序列、火山災害類型以及台灣嘉南地區的地震潛勢與防災策略。',
+            content: {
+              text: '這次的演講讓我印象深刻，不同於充滿公式的理論推導，黃博士的內容非常貼近生活。他以熊本地震為例，解釋了「前震-主震」序列的危險性——人們往往在大地震後放鬆警惕，卻忽略了更大主震隨後的可能性。\n\n在火山方面，博士詳細介紹了阿蘇火山的活動，以及火山灰、碎屑流等不同災害的特性，這剛好呼應了我們這學期的火山學課程。針對台灣本土，他分析了嘉義大埔地震與梅山斷層的週期，並務實地建議大家升級居家防震設施（如系統櫃）。\n\n最讓我振奮的是在提問環節，我詢問了關於「流體誘發地震」的可能性（聯想到 403 花蓮地震）。博士的回應肯定了大膽假設的科學精神：雖然目前相關性仍需更多證據，但這正是研究最迷人之處。',
+              charts: [
+                { 
+                  title: '圖表 1: 火山災害的多樣性 (Volcanic Hazards)', 
+                  image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-12-10%20174221.png', 
+                  text: '這張圖展示了同一座火山可能同時帶來多重災害：從近距離高溫的熔岩流、毀滅性的火山碎屑流，到影響範圍極廣的火山灰與酸雨。災害不僅有空間上的分布差異，在時間上也有「瞬間爆發」與「長期影響」的區別。' 
+                },
+                { 
+                  title: '圖表 2: 西部麓山帶斷層系統', 
+                  image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-12-10%20174255.png', 
+                  text: '台灣西部麓山帶擁有極其複雜的斷層系統，包含逆衝斷層、走滑斷層以及深埋地下的盲斷層。這張圖表強調了不同斷層型態所對應的破裂模式與潛在災害分布，是評估嘉南地區地震風險的重要依據。' 
+                },
+                { 
+                  title: '圖表 3: 地震序列與流體假說', 
+                  image: 'https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E8%9E%A2%E5%B9%95%E6%93%B7%E5%8F%96%E7%95%AB%E9%9D%A2%202025-12-10%20174302.png', 
+                  text: '圖中呈現了 2024 至 2025 年間的地震觀測數據（含嘉義大埔地震）。震央鄰近水庫的現象，引發了關於「流體是否誘發地震」的科學討論。這張圖不僅是數據的呈現，更代表了科學家如何從現象中尋找關聯、提出假設的過程。' 
+                }
+              ]
+            }
+          },
+          {
+            isSpeaker: true,
+            width: 'full',
+            name: '廖勿渝 博士',
+            title: '資深地質師',
+            org: '中油探采研究所',
+            topic: '震測資料處理在能源探勘的應用',
+            intro: '廖博士從實務角度出發，展示了如何將震測原理應用於石油與天然氣的探勘工作中。',
+            content: {
+              text: '（此區塊待補充詳細演講心得與重點整理）'
+            }
           }
-        },
-        {
-          id: 'lecture-huang',
-          title: '黃有志博士',
-          subtitle: 'VOLCANO & EARTHQUAKE',
-          icon: <Mountain size={40} />,
-          color: 'from-orange-500 to-red-500',
-          description: '從阿蘇火山，熊本地震到嘉南地震觀測：談旅日經驗與地球物理學的實際應用。',
-          content: {
-            intro: '黃有志博士分享他在日本阿蘇火山的實地觀測經驗，並探討如何將這些經驗應用於台灣嘉南地區的地震監測。',
-            details: [
-              { 
-                isProject: true,
-                width: 'full',
-                title: '演講重點：火山與地震觀測',
-                intro: '結合旅日經驗，探討火山地震的特殊性與防災實務應用。',
-                steps: [
-                  { title: '演講摘要', text: '（內容建置中...）本演講將結合黃博士在日本阿蘇火山的實地觀測經驗，探討火山地震的特性，並將其經驗應用於台灣嘉南地區的地震監測與防災實務。', width: 'full' }
-                ]
-              }
-            ]
-          }
-        },
-        {
-          id: 'lecture-liao',
-          title: '廖勿渝博士',
-          subtitle: 'AI SEISMOLOGY',
-          icon: <Monitor size={40} />,
-          color: 'from-emerald-500 to-teal-500',
-          description: 'AI 遇上地震學：從深度學習到全自動化監測。',
-          content: {
-            intro: '廖勿渝博士帶領我們進入 AI 地震學的世界，探索如何利用深度學習技術革新傳統的地震監測流程。',
-            details: [
-              { 
-                isProject: true,
-                width: 'full',
-                title: '演講重點：AI 地震學',
-                intro: '隨著人工智慧技術的飛速發展，地震學正迎來一場革命。',
-                steps: [
-                  { title: '演講摘要', text: '（內容建置中...）廖博士將分享如何利用深度學習模型（如 CNN, RNN）來自動偵測微震、讀取波相 (Phase Picking) 以及進行即時的預警系統開發。', width: 'full' }
-                ]
-              }
-            ]
-          }
-        }
-      ]
+        ] 
+      }
     }
   ];
-
-  const [selectedSubTopic, setSelectedSubTopic] = useState(null);
 
   const handleTopicClick = (topic, sectionId = null) => {
     setTransitionTopic(topic);
     setTimeout(() => {
       setSelectedTopic(topic);
-      setSelectedSubTopic(null); // Reset sub-topic
+      setActiveSubSection(null); // Reset sub-section when entering a topic
       window.scrollTo(0, 0);
       if (sectionId) {
         setTargetSectionId(sectionId);
@@ -1443,36 +1372,35 @@ export default function App() {
     }, 1100);
   };
 
-  const handleSubTopicClick = (subTopic) => {
-    setTransitionTopic(subTopic);
-    setTimeout(() => {
-      setSelectedSubTopic(subTopic);
-      window.scrollTo(0, 0);
-      setTimeout(() => {
-        setTransitionTopic(null);
-      }, 200);
-    }, 1100);
-  };
-
   const handleBack = () => {
-    setIsAnimating(true);
-    setTimeout(() => {
-      if (selectedSubTopic) {
-        setSelectedSubTopic(null); // Back to sub-menu
-      } else {
-        setSelectedTopic(null); // Back to main menu
-      }
-      setIsAnimating(false);
-    }, 300);
+    // Modified back logic: Sub-section -> Section -> Main Menu
+    if (activeSubSection) {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setActiveSubSection(null);
+        setIsAnimating(false);
+      }, 300);
+    } else {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setSelectedTopic(null);
+        setIsAnimating(false);
+      }, 300);
+    }
   };
 
   // Scroll to section effect
   useEffect(() => {
-    // Scroll handling for sub-topics if needed in future
-  }, [selectedTopic, selectedSubTopic]);
-
-  // Determine which content to show
-  const activeTopic = selectedSubTopic || selectedTopic;
+    if (selectedTopic && targetSectionId) {
+      setTimeout(() => {
+        const element = document.getElementById(targetSectionId);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        setTargetSectionId(null);
+      }, 500); 
+    }
+  }, [selectedTopic, targetSectionId]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-[#0f172a] to-[#1e3a8a] text-slate-100 font-sans selection:bg-blue-500 selection:text-white overflow-x-hidden">
@@ -1492,54 +1420,42 @@ export default function App() {
       {showIntro && <IntroAnimation onComplete={() => setShowIntro(false)} />}
       <TitleTransitionOverlay topic={transitionTopic} />
 
-      {/* Background Elements ... */}
       <div className="fixed inset-0 z-0 pointer-events-none mix-blend-screen opacity-30">
         <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] bg-blue-500/20 rounded-full blur-[120px] animate-pulse duration-[15s]"></div>
         <div className="absolute bottom-[-20%] right-[-10%] w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse duration-[12s]"></div>
         <div className="absolute top-[40%] left-[50%] w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] transform -translate-x-1/2"></div>
       </div>
 
-      {/* === 獨立出來的懸浮按鈕層 (Floating Buttons Layer) === */}
-      {/* 移到最外層，不受 transition-all scale 影響，確保 fixed 定位正確 */}
-      {selectedTopic && !showIntro && !isAnimating && (
-        <div className="fixed inset-0 pointer-events-none z-[100] animate-fade-in">
-          
-          {/* 左下角：回到頂部 */}
-          <div className="absolute bottom-6 left-6 pointer-events-auto">
+      {/* === 導航按鈕：移至最外層以確保 fixed 定位不受 transform 影響 === */}
+      {!showIntro && selectedTopic && (
+        <>
+          <div className="fixed bottom-6 left-6 z-[100] animate-fade-in">
             <button 
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} 
-              className="p-3 md:p-4 rounded-full bg-slate-800/90 backdrop-blur-xl border border-white/20 text-slate-300 hover:text-white shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:bg-slate-700 hover:border-blue-400 transition-all group hover:-translate-y-1" 
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="p-3 md:p-4 rounded-full bg-slate-800/90 backdrop-blur-xl border border-white/20 text-slate-300 hover:text-white shadow-[0_0_20px_rgba(0,0,0,0.5)] hover:bg-slate-700 hover:border-blue-400 transition-all group hover:-translate-y-1"
               title="回到頂部"
             >
               <ArrowUp size={24} className="group-hover:scale-110 transition-transform" />
             </button>
           </div>
 
-          {/* 右下角：回主選單/回上一頁 */}
-          <div className="absolute bottom-6 right-6 pointer-events-auto">
+          <div className="fixed bottom-6 right-6 z-[100] animate-fade-in">
             <button 
-              onClick={() => { 
-                  // 統一行為：直接回主選單 (Reset all)
-                  // 若希望有層次，可改用 handleBack
-                  setIsAnimating(true);
-                  setTimeout(() => {
-                      setSelectedTopic(null);
-                      setSelectedSubTopic(null);
-                      setIsAnimating(false);
-                  }, 300);
-              }} 
+              onClick={handleBack}
               className="flex items-center gap-2 px-5 py-3 md:px-6 md:py-4 rounded-full bg-blue-600/90 hover:bg-blue-500 text-white shadow-[0_0_20px_rgba(37,99,235,0.5)] hover:shadow-[0_0_30px_rgba(37,99,235,0.7)] backdrop-blur-xl border border-white/10 transition-all hover:scale-105 group hover:-translate-y-1"
             >
-              <span className="font-bold tracking-wider text-sm md:text-base hidden sm:inline">回主選單</span>
+              <span className="font-bold tracking-wider text-sm md:text-base hidden sm:inline">
+                {activeSubSection ? '回列表' : '回主選單'}
+              </span>
               <Home size={20} className="group-hover:scale-110 transition-transform" />
             </button>
           </div>
-        </div>
+        </>
       )}
 
       <div className={`relative z-10 transition-all duration-1000 ${showIntro ? 'opacity-0 scale-95 blur-sm' : 'opacity-100 scale-100 blur-0'} ${isAnimating ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
         
-        {/* === 個人資訊欄位 === */}
+        {/* === 個人資訊欄位 (動態調整位置) === */}
         {!showIntro && (
           <div className={`absolute left-6 md:left-8 z-50 flex flex-col items-start animate-fade-in transition-all duration-500 ${selectedTopic ? 'top-24 md:top-32' : 'top-6 md:top-8'}`} style={{ animationDelay: '0.5s' }}>
             <div className="flex items-center gap-2 mb-1">
@@ -1561,7 +1477,7 @@ export default function App() {
           </div>
         )}
 
-        {/* === 視圖邏輯：首頁網格 (Main Menu) === */}
+        {/* === 視圖邏輯：首頁網格 === */}
         {!selectedTopic ? (
           <div className="container mx-auto px-6 py-12 flex flex-col items-center justify-center min-h-screen relative">
             
@@ -1584,7 +1500,7 @@ export default function App() {
               </p>
             </header>
 
-            {/* Introduction Block ... */}
+            {/* Introduction Block */}
             <div className="w-full max-w-5xl px-6 mb-16 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               <div className="relative bg-slate-800/30 backdrop-blur-sm border border-white/10 rounded-3xl p-8 md:p-10 overflow-hidden group hover:bg-slate-800/40 transition-colors duration-500">
                 <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-400 via-purple-400 to-orange-400"></div>
@@ -1606,15 +1522,17 @@ export default function App() {
               </div>
             </div>
 
-            {/* Main Grid */}
+            {/* Grid (3x3 Layout) */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl px-6">
-              {topics.map((topic) => (
+              {topics.map((topic, index) => (
                 <div 
                   key={topic.id}
                   onClick={() => handleTopicClick(topic)}
                   className={`group relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:bg-slate-800/60 hover:border-white/30 overflow-hidden w-full`}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${topic.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-2xl`}></div>
+                  
+                  {/* 角落裝飾 */}
                   <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-white/10 rounded-tl-[2rem] group-hover:border-white/40 transition-colors"></div>
                   <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-white/10 rounded-br-[2rem] group-hover:border-white/40 transition-colors"></div>
 
@@ -1649,208 +1567,633 @@ export default function App() {
           </div>
         ) : (
           
-          /* === 視圖邏輯：詳細內容或次級選單 (Detail or Sub-Menu) === */
+          /* === 視圖邏輯：詳細內容頁面 === */
           <div className="min-h-screen bg-[#0f172a] relative"> 
-            
-            {/* === 特殊模式：次級選單 (Sub-Menu for Lectures) === */}
-            {selectedTopic.subTopics && !selectedSubTopic ? (
-              <>
-                <nav className="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between">
-                  <button onClick={handleBack} className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group">
-                    <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 border border-white/5 group-hover:border-white/20 transition-all"><ChevronLeft size={20} /></div>
-                    <span className="font-medium tracking-wide text-sm">BACK TO MENU</span>
-                  </button>
-                  <h2 className="text-lg font-bold text-white hidden md:block tracking-wider">{selectedTopic.title}</h2>
-                  <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${selectedTopic.color} ring-4 ring-white/10 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}></div>
-                </nav>
+            <nav className="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-center md:justify-between">
+              <button 
+                onClick={handleBack}
+                className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group absolute left-6 md:static"
+              >
+                <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 border border-white/5 group-hover:border-white/20 transition-all">
+                  <ChevronLeft size={20} />
+                </div>
+                <span className="font-medium tracking-wide text-sm hidden md:inline">
+                  {activeSubSection ? 'BACK TO LIST' : 'BACK TO MENU'}
+                </span>
+              </button>
+              
+              <h2 className="text-lg font-bold text-white tracking-wider flex items-center gap-2">
+                {selectedTopic.title}
+                {activeSubSection && (
+                  <>
+                    <span className="text-slate-500">/</span>
+                    <span className="text-blue-300">{activeSubSection.name}</span>
+                  </>
+                )}
+              </h2>
+              
+              <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${selectedTopic.color} ring-4 ring-white/10 shadow-[0_0_15px_rgba(255,255,255,0.2)] hidden md:block`}></div>
+            </nav>
 
-                <div className="container mx-auto px-6 py-12 flex flex-col items-center">
-                  <header className="text-center mb-16 space-y-6 animate-fade-in-down">
-                    <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 backdrop-blur-md text-xs font-medium tracking-[0.2em] mb-4 text-slate-300`}>
-                      {selectedTopic.subtitle}
-                    </div>
-                    <h1 className="text-4xl md:text-6xl font-black text-white drop-shadow-2xl">{selectedTopic.title}</h1>
-                    <p className="text-lg text-slate-400 max-w-2xl mx-auto leading-relaxed">{selectedTopic.content.intro}</p>
-                  </header>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full max-w-7xl">
-                    {selectedTopic.subTopics.map((subTopic) => (
-                      <div 
-                        key={subTopic.id}
-                        onClick={() => handleSubTopicClick(subTopic)}
-                        className={`group relative bg-slate-800/40 backdrop-blur-xl border border-white/10 rounded-[2rem] p-8 cursor-pointer transition-all duration-500 hover:-translate-y-2 hover:bg-slate-800/60 hover:border-white/30 overflow-hidden w-full`}
-                      >
-                        <div className={`absolute inset-0 bg-gradient-to-br ${subTopic.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-2xl`}></div>
-                        <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-white/10 rounded-tl-[2rem] group-hover:border-white/40 transition-colors"></div>
-                        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-white/10 rounded-br-[2rem] group-hover:border-white/40 transition-colors"></div>
-
-                        <div className="relative flex items-start justify-between z-10">
-                          <div className={`p-5 rounded-2xl bg-gradient-to-br ${subTopic.color} shadow-lg group-hover:scale-110 group-hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all duration-500 ring-1 ring-white/20`}>
-                            {subTopic.icon}
-                          </div>
-                          <div className="p-2 rounded-full bg-white/5 text-slate-400 group-hover:text-white group-hover:bg-white/20 transition-all duration-300">
-                            <ArrowUpRight size={24} className="transform group-hover:rotate-45 transition-transform duration-500" />
-                          </div>
-                        </div>
-                        
-                        <div className="mt-8 relative z-10">
-                          <h3 className="text-2xl font-bold text-white mb-2 group-hover:text-transparent bg-clip-text bg-gradient-to-r group-hover:from-white group-hover:to-blue-200 transition-all">
-                            {subTopic.title}
-                          </h3>
-                          <p className="text-xs font-bold text-slate-400 uppercase tracking-[0.15em] mb-4 flex items-center gap-2">
-                            <span className={`w-1.5 h-1.5 rounded-full bg-gradient-to-r ${subTopic.color}`}></span>
-                            {subTopic.subtitle}
-                          </p>
-                          <p className="text-slate-300 leading-relaxed border-t border-white/10 pt-4 group-hover:border-white/30 transition-colors line-clamp-3">
-                            {subTopic.description}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+            <div className="container mx-auto px-6 py-10 max-w-5xl pb-32">
+              
+              {!activeSubSection && (
+                <div className="mb-12 flex flex-col md:flex-row gap-8 items-center animate-fade-in-up">
+                  <div className={`p-8 rounded-[2rem] bg-gradient-to-br ${selectedTopic.color} shadow-2xl ring-8 ring-white/5`}>
+                    {React.cloneElement(selectedTopic.icon, { size: 64, className: "text-white drop-shadow-lg" })}
+                  </div>
+                  <div className="flex-1 text-center md:text-left">
+                    <h1 className="text-4xl md:text-6xl font-black text-white mb-3 tracking-tight">{selectedTopic.title}</h1>
+                    <p className="text-xl text-slate-400 uppercase tracking-[0.2em] font-light">{selectedTopic.subtitle}</p>
                   </div>
                 </div>
-              </>
-            ) : (
-              
-              /* === 一般詳細頁面 (Standard Detail View) === */
-              <>
-                <nav className="sticky top-0 z-50 bg-[#0f172a]/80 backdrop-blur-md border-b border-white/10 px-6 py-4 flex items-center justify-between">
-                  <button 
-                    onClick={handleBack}
-                    className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors group"
-                  >
-                    <div className="p-2 rounded-full bg-white/5 group-hover:bg-white/10 border border-white/5 group-hover:border-white/20 transition-all">
-                      <ChevronLeft size={20} />
-                    </div>
-                    <span className="font-medium tracking-wide text-sm">{selectedSubTopic ? 'BACK TO LECTURES' : 'BACK TO MENU'}</span>
-                  </button>
-                  <h2 className="text-lg font-bold text-white hidden md:block tracking-wider">{activeTopic.title}</h2>
-                  <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${activeTopic.color} ring-4 ring-white/10 shadow-[0_0_15px_rgba(255,255,255,0.2)]`}></div>
-                </nav>
+              )}
 
-                <div className="container mx-auto px-6 py-10 max-w-5xl pb-32">
-                  <div className="mb-12 flex flex-col md:flex-row gap-8 items-center animate-fade-in-up">
-                    <div className={`p-8 rounded-[2rem] bg-gradient-to-br ${activeTopic.color} shadow-2xl ring-8 ring-white/5`}>
-                      {React.cloneElement(activeTopic.icon, { size: 64, className: "text-white drop-shadow-lg" })}
-                    </div>
-                    <div className="flex-1 text-center md:text-left">
-                      <h1 className="text-4xl md:text-6xl font-black text-white mb-3 tracking-tight">{activeTopic.title}</h1>
-                      <p className="text-xl text-slate-400 uppercase tracking-[0.2em] font-light">{activeTopic.subtitle}</p>
-                    </div>
+              {/* 摘要與簡介區塊 (僅在非子選單詳細頁時顯示) */}
+              {!activeSubSection && selectedTopic.content.intro && (
+                <div className="bg-slate-800/40 backdrop-blur-md rounded-3xl p-8 border border-white/10 shadow-lg mb-8">
+                  <div className="flex items-center gap-3 mb-6">
+                    {selectedTopic.id === 'seismic-experiment' ? <ClipboardList className="text-blue-400" /> : selectedTopic.id === 'refraction-derivation' ? <PenTool className="text-pink-400" /> : selectedTopic.id === 'gravity-method' ? <BookOpen className="text-cyan-400" /> : <BookOpen className="text-blue-400" />}
+                    <h3 className="text-2xl font-bold text-white">
+                      {selectedTopic.id === 'refraction-derivation' ? '推導概述' : selectedTopic.id === 'gravity-method' ? '課程摘要' : selectedTopic.id === 'lecture-series' ? '演講系列介紹' : '實驗摘要'}
+                    </h3>
                   </div>
+                  <p className="text-lg text-slate-300 leading-8">{selectedTopic.content.intro}</p>
+                </div>
+              )}
 
-                  {activeTopic.content.intro && (
-                    <div className="bg-slate-800/40 backdrop-blur-md rounded-3xl p-8 border border-white/10 shadow-lg mb-8">
-                      <div className="flex items-center gap-3 mb-6">
-                        {/* Dynamic Icon Selection for Intro Header */}
-                        {activeTopic.id === 'seismic-experiment' ? <ClipboardList className="text-blue-400" /> : <BookOpen className="text-blue-400" />}
-                        <h3 className="text-2xl font-bold text-white">摘要</h3>
+              {/* === 內容顯示邏輯 === */}
+              {selectedTopic.subMenu && !activeSubSection ? (
+                // 1. 子選單卡片模式 (如演講專區列表)
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {selectedTopic.content.details.map((item, idx) => (
+                    <div 
+                      key={idx}
+                      onClick={() => { setActiveSubSection(item); window.scrollTo(0,0); }}
+                      className="group relative bg-slate-800/40 backdrop-blur-md border border-white/10 rounded-[2rem] p-6 cursor-pointer transition-all duration-300 hover:-translate-y-2 hover:bg-slate-800/60 hover:border-white/30 overflow-hidden"
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-br ${selectedTopic.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
+                      
+                      <div className="flex items-center gap-4 mb-4">
+                        <div className={`p-4 rounded-2xl bg-gradient-to-br ${selectedTopic.color} shadow-lg shrink-0`}>
+                          {item.image ? (
+                             <div className="w-12 h-12 rounded-xl overflow-hidden">
+                               <ImageDisplay src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                             </div>
+                          ) : (
+                             <User size={24} className="text-white" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <h3 className="text-lg font-bold text-white truncate group-hover:text-purple-300 transition-colors">{item.name}</h3>
+                          <p className="text-xs text-slate-400 uppercase tracking-wider truncate">{item.title}</p>
+                        </div>
                       </div>
-                      <p className="text-lg text-slate-300 leading-8">{activeTopic.content.intro}</p>
-                    </div>
-                  )}
+                      
+                      <div className="space-y-2">
+                        <div className="inline-flex items-center gap-2 px-2 py-1 rounded bg-white/5 border border-white/5 text-[10px] text-slate-300">
+                          <Mic size={10} />
+                          <span className="truncate max-w-[200px]">{item.topic}</span>
+                        </div>
+                        <p className="text-sm text-slate-400 leading-relaxed line-clamp-3 border-t border-white/10 pt-3 mt-3">
+                          {item.intro}
+                        </p>
+                      </div>
 
-                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 auto-rows-min">
-                    {activeTopic.content.details.map((item, idx) => (
-                      <div key={idx} id={item.id} className={`bg-slate-800/20 rounded-2xl p-6 border border-white/5 hover:border-white/20 transition-all hover:bg-slate-800/40 overflow-hidden group/card ${item.width === 'full' ? 'xl:col-span-2' : 'xl:col-span-1'}`}>
-                        {/* 這裡複用所有渲染邏輯 (isNav, isFreeAirSim, isProject, etc.) */}
-                        {/* Note: I'm reusing the exact same rendering logic block as before to ensure full compatibility */}
-                        {item.isNav ? (
-                          <button onClick={(e) => { e.stopPropagation(); const target = topics.find(t => t.id === item.linkTo); if(target) handleTopicClick(target, item.targetId); }} className="w-full flex items-center justify-between p-6 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/40 hover:to-purple-600/40 border border-blue-500/30 group/btn transition-all duration-300 shadow-lg hover:shadow-blue-500/20">
-                            <div className="flex items-center gap-4"><div className="p-3 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 group-hover/btn:scale-110 transition-transform">{item.icon}</div><div className="text-left"><h4 className="text-lg font-bold text-white mb-1 group-hover/btn:text-blue-300 transition-colors">{item.title}</h4><p className="text-xs text-slate-400">點擊跳轉至相關實作內容</p></div></div><ArrowRight size={20} className="text-slate-400 group-hover/btn:text-white group-hover/btn:translate-x-1 transition-all"/>
-                          </button>
-                        ) : item.isFreeAirSim ? (<FACSimulation />) : item.isBCSim ? (<BCSimulation />) : item.isInterpretationSim ? (<InterpretationSimulation />) : item.isSimulation ? (<SeismicSimulation />) : item.isGravityPrinciples ? (
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10"><div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Sigma size={14}/> 牛頓萬有引力 (NEWTON)</div><div className="text-lg text-white font-serif italic mb-2">F = G <MathFraction num="m₁m₂" den="r²" /></div><p className="text-[10px] text-slate-400">萬物皆有引力，重力探勘的基礎。G 為萬有引力常數。</p></div>
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10"><div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Sigma size={14}/> 理論重力 (THEORETICAL)</div><div className="text-lg text-white font-serif italic mb-2">gₜ ≈ gₑ(1 + 0.0053sin²φ)</div><p className="text-[10px] text-slate-400">地球非正圓，重力隨緯度φ增加而變大 (赤道最小，兩極最大)。</p></div>
-                              <div className="bg-white/5 p-4 rounded-xl border border-white/10"><div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Scale size={14}/> 重力單位 (UNIT)</div><div className="text-lg text-white font-serif italic mb-2">1 mGal = 10⁻³ Gal</div><p className="text-[10px] text-slate-400">Gal (cm/s²)。地表平均重力約 980,000 mGal。</p></div>
+                      <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-0 translate-x-2">
+                        <div className="p-2 rounded-full bg-white/10 text-white">
+                          <ArrowRight size={16} />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                // 2. 標準詳細內容模式 (或子選單點擊後的詳細頁)
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 auto-rows-min animate-fade-in">
+                  {(activeSubSection ? [activeSubSection] : selectedTopic.content.details).map((item, idx) => (
+                    <div 
+                      key={idx} 
+                      id={item.id} // Add ID for scrolling target
+                      className={`
+                        bg-slate-800/20 rounded-2xl p-6 border border-white/5 hover:border-white/20 transition-all hover:bg-slate-800/40 overflow-hidden group/card
+                        ${item.width === 'full' ? 'xl:col-span-2' : 'xl:col-span-1'}
+                      `}
+                    >
+                      {/* === 渲染邏輯 === */}
+                      {item.isNav ? (
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            const target = topics.find(t => t.id === item.linkTo);
+                            if(target) handleTopicClick(target, item.targetId);
+                          }}
+                          className="w-full flex items-center justify-between p-6 rounded-2xl bg-gradient-to-r from-blue-600/20 to-purple-600/20 hover:from-blue-600/40 hover:to-purple-600/40 border border-blue-500/30 group/btn transition-all duration-300 shadow-lg hover:shadow-blue-500/20"
+                        >
+                          <div className="flex items-center gap-4">
+                            <div className="p-3 rounded-xl bg-blue-500/20 text-blue-300 border border-blue-500/30 group-hover/btn:scale-110 transition-transform">
+                              {item.icon}
                             </div>
-                        ) : item.isFACSection ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4"><FormulaBlock formula={{label: '自由空間校正 (FAC)', math: 'FAC = 0.3086 × h', desc: '每上升 1m 重力減少約 0.3086 mGal。因為是補償「損失」的重力，所以符號為 (+)。'}} /><FormulaBlock formula={{label: '自由空間異常 (FAA)', math: 'Δg_fa = g - gₜ + FAC', desc: 'g: 觀測重力, gt: 理論重力(緯度修正), FAC: 高度修正。'}} /></div>
-                        ) : item.isBCSection ? (
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4"><FormulaBlock formula={{label: '布格校正 (BC)', math: 'BC = 0.0419ρh', desc: 'ρ 為岩石密度。我們要扣除這塊「無限大平板」的引力，所以符號為 (-)。'}} /><FormulaBlock formula={{label: '布格異常 (ΔgB)', math: 'ΔgB = Δg_fa - BC', desc: '這是經緯度、高度與岩層質量校正後的最終結果，直接反映地下密度分佈。'}} /></div>
-                        ) : item.isCustomComp ? (<div className="w-full">{item.component}</div>) : item.isEmbed ? (
-                            <div className="flex flex-col h-[600px] w-full"><div className="flex items-center justify-between mb-4"><h4 className="text-xl font-bold text-white flex items-center gap-3"><div className={`w-8 h-1 rounded-full bg-gradient-to-r ${activeTopic.color}`}></div>{item.title}</h4><a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors border border-blue-500/30 px-3 py-1.5 rounded-full hover:bg-blue-500/10">Open in New Tab <ExternalLink size={12} /></a></div><div className="flex-1 bg-white rounded-xl overflow-hidden border border-white/10 shadow-2xl relative group/embed"><iframe src={item.url} className="w-full h-full border-0" title={item.title} /><div className="absolute inset-0 bg-transparent pointer-events-none border-[6px] border-slate-800/50 rounded-xl"></div></div></div>
-                        ) : item.isChartGroup ? (
-                            <div className="flex flex-col gap-8"><h4 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3"><Presentation size={28} className="text-purple-400" />{item.title}</h4><div className="grid grid-cols-1 gap-8">{item.charts.map((chart, cIdx) => (<div key={cIdx} className="bg-slate-900/60 rounded-2xl p-6 border border-white/10 shadow-xl hover:border-purple-500/30 transition-all group/chart"><div className="mb-4 flex items-center gap-3"><div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 font-bold font-mono text-sm">{cIdx + 1}</div><h5 className="text-xl font-bold text-white group-hover/chart:text-purple-300 transition-colors">{chart.title}</h5></div><div className="rounded-xl overflow-hidden border border-white/10 shadow-lg mb-6 relative group/img"><div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-10"></div><ImageDisplay src={chart.image} alt={chart.title} className="w-full h-auto object-cover transform group-hover/img:scale-105 transition-transform duration-700 ease-out" /></div><p className="text-slate-300 leading-relaxed text-sm whitespace-pre-line font-light pl-2 border-l-2 border-purple-500/30">{chart.text}</p></div>))}</div></div>
-                        ) : item.isSyllabus ? (
-                          /* Syllabus Render */
-                          <div className="flex flex-col gap-8"><div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/50 p-6 rounded-2xl border border-orange-500/30 shadow-lg"><div><h3 className="text-2xl font-black text-white mb-2">{item.title}</h3><p className="text-slate-400 text-sm">探索地球奧秘，掌握資料科學技能</p></div>{item.courseLink && (<a href={item.courseLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-bold shadow-lg shadow-orange-500/20 transition-all hover:scale-105"><Link size={16} />課程介紹網站</a>)}</div><div className="relative"><div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500/50 via-blue-500/50 to-transparent"></div><div className="space-y-6">{item.schedule.map((week, wIdx) => (<div key={wIdx} className="relative pl-20 group/week"><div className="absolute left-3 top-0 w-10 h-10 bg-slate-800 rounded-full border-2 border-white/20 flex flex-col items-center justify-center z-10 group-hover/week:border-orange-400 group-hover/week:scale-110 transition-all shadow-lg"><span className="text-[8px] text-slate-400 uppercase leading-none">Week</span><span className="text-sm font-bold text-white leading-none">{week.week}</span></div><div className="absolute left-8 top-5 w-12 h-0.5 bg-white/10 group-hover/week:bg-orange-500/50 transition-colors"></div><div className="bg-slate-800/40 hover:bg-slate-800/60 rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all duration-300"><div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-3 border-b border-white/5"><div className="flex items-center gap-3"><div className="px-2 py-1 rounded bg-white/5 text-xs font-mono text-slate-400 flex items-center gap-1"><Calendar size={12} /> {week.date}</div><h4 className="text-lg font-bold text-white group-hover/week:text-orange-300 transition-colors">{week.title}</h4></div><div className="flex gap-2">{week.tools && week.tools.map((icon, tIdx) => (<div key={tIdx} className="p-1.5 rounded-lg bg-black/30 text-slate-400 border border-white/5">{icon}</div>))}</div></div><div className="grid grid-cols-1 md:grid-cols-2 gap-4"><div className="flex flex-col gap-1"><span className="text-[10px] uppercase tracking-widest text-blue-400 font-bold flex items-center gap-1"><Globe size={10}/> 地球物理知識</span><p className="text-sm text-slate-300 pl-3 border-l-2 border-blue-500/30">{week.knowledge}</p></div><div className="flex flex-col gap-1"><span className="text-[10px] uppercase tracking-widest text-orange-400 font-bold flex items-center gap-1"><Code size={10}/> 資料處理技能</span><p className="text-sm text-slate-300 pl-3 border-l-2 border-orange-500/30">{week.skills}</p></div></div></div></div>))}</div></div></div>
-                        ) : item.isSplitImage ? (
-                          /* Split Image Render */
-                          <div className="flex flex-col gap-8"><div className="border-b border-white/10 pb-6 mb-6"><h4 className="text-2xl font-bold text-white mb-2">{item.title}</h4><p className="text-slate-400 text-sm">將影像分為左右兩側，觀察板塊還原前後，磁極路徑由「分岔」轉為「重合」的過程。</p></div><div className="grid grid-cols-1 md:grid-cols-2 gap-6"><div className="group/split"><div className="rounded-xl overflow-hidden border border-white/10 h-64 relative mb-4 shadow-lg group-hover/split:border-blue-500/50 transition-colors bg-black/40"><ImageDisplay src={item.images ? item.images.left : item.image} alt="Image Left Part" className="w-full h-full" style={item.images ? { objectFit: 'contain' } : { objectFit: 'cover', objectPosition: 'left' }}/><div className="absolute top-2 left-2 px-2 py-1 bg-black/60 backdrop-blur border border-white/10 rounded text-[10px] font-bold text-white uppercase tracking-wider">{item.images ? 'Left View' : 'Before (Present)'}</div></div><div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 group-hover/split:bg-slate-900/80 transition-colors"><h5 className="text-lg font-bold text-blue-300 mb-2">{item.sections[0].title}</h5><p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">{item.sections[0].desc}</p></div></div><div className="group/split"><div className="rounded-xl overflow-hidden border border-white/10 h-64 relative mb-4 shadow-lg group-hover/split:border-pink-500/50 transition-colors bg-black/40"><ImageDisplay src={item.images ? item.images.right : item.image} alt="Image Right Part" className="w-full h-full" style={item.images ? { objectFit: 'contain' } : { objectFit: 'cover', objectPosition: 'right' }}/><div className="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur border border-white/10 rounded text-[10px] font-bold text-white uppercase tracking-wider">{item.images ? 'Right View' : 'After (Restored)'}</div></div><div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 group-hover/split:bg-slate-900/80 transition-colors"><h5 className="text-lg font-bold text-pink-300 mb-2">{item.sections[1].title}</h5><p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">{item.sections[1].desc}</p></div></div></div></div>
-                        ) : item.isKeyPoints ? (
-                          /* Key Points Render */
-                          <div className="flex flex-col gap-6"><h4 className="text-2xl font-bold text-white border-l-4 border-red-500 pl-4 mb-2">{item.title}</h4><div className="grid grid-cols-1 gap-4">{item.points.map((point, pIdx) => (<div key={pIdx} className="bg-slate-800/40 rounded-xl p-5 border border-white/5 hover:border-red-500/30 transition-all hover:translate-x-1 duration-300 group/point"><h5 className="text-lg font-bold text-white mb-2 group-hover/point:text-red-300 transition-colors flex items-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>{point.title}</h5><p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line pl-4 border-l border-white/5">{point.desc}</p></div>))}</div></div>
-                        ) : item.isProject ? (
-                          /* Project Render (Used for Lectures as well) */
+                            <div className="text-left">
+                              <h4 className="text-lg font-bold text-white mb-1 group-hover/btn:text-blue-300 transition-colors">{item.title}</h4>
+                              <p className="text-xs text-slate-400">點擊跳轉至相關實作內容</p>
+                            </div>
+                          </div>
+                          <ArrowRight size={20} className="text-slate-400 group-hover/btn:text-white group-hover/btn:translate-x-1 transition-all"/>
+                        </button>
+                      ) : item.isFreeAirSim ? (
+                        <FACSimulation />
+                      ) : item.isBCSim ? (
+                          <BCSimulation />
+                      ) : item.isInterpretationSim ? (
+                          <InterpretationSimulation />
+                      ) : item.isSimulation ? (
+                        <SeismicSimulation />
+                      ) : item.isSpeaker ? (
+                          <div className="flex flex-col gap-6">
+                             <div className="flex flex-col md:flex-row items-center md:items-start gap-6 border-b border-white/10 pb-6">
+                                <div className="w-24 h-24 rounded-full bg-gradient-to-br from-purple-500/20 to-blue-500/20 border-2 border-white/10 flex items-center justify-center shrink-0 shadow-lg overflow-hidden relative">
+                                   {item.image ? (
+                                     <ImageDisplay src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                                   ) : (
+                                     <User size={40} className="text-purple-300" />
+                                   )}
+                                </div>
+                                <div className="text-center md:text-left flex-1">
+                                   <h3 className="text-3xl font-black text-white mb-1">{item.name}</h3>
+                                   <p className="text-sm font-bold text-purple-400 uppercase tracking-wider mb-2">{item.title}</p>
+                                   <p className="text-xs text-slate-400 font-mono mb-4 flex items-center justify-center md:justify-start gap-2">
+                                     <Globe size={12}/> {item.org}
+                                   </p>
+                                   <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-purple-500/10 border border-purple-500/20 rounded-full text-sm text-purple-200 font-medium">
+                                      <Mic size={14} />
+                                      講題：{item.topic}
+                                   </div>
+                                </div>
+                             </div>
+                             
+                             <div className="pl-0 md:pl-4 border-l-0 md:border-l-2 border-purple-500/20">
+                                <h5 className="text-sm font-bold text-white mb-2 flex items-center gap-2"><BookOpen size={14} className="text-slate-400"/> 內容摘要</h5>
+                                <p className="text-slate-300 leading-relaxed text-sm mb-6">{item.intro}</p>
+                                
+                                {item.content && item.content.text && (
+                                  <div className="bg-slate-900/50 p-6 rounded-2xl border border-white/5 mb-8 shadow-inner">
+                                     <div className="flex items-start gap-4">
+                                        <div className="mt-1 p-2 rounded-lg bg-purple-500/10 text-purple-400"><Presentation size={20}/></div>
+                                        <div className="space-y-4">
+                                          <h6 className="font-bold text-white">演講心得與筆記</h6>
+                                          <p className="text-sm text-slate-300 leading-7 whitespace-pre-line font-light">{item.content.text}</p>
+                                        </div>
+                                     </div>
+                                  </div>
+                                )}
+
+                                {item.content && item.content.charts && (
+                                  <div className="space-y-6">
+                                     <h5 className="text-sm font-bold text-white flex items-center gap-2 border-b border-white/10 pb-2"><BarChart2 size={14} className="text-slate-400"/> 重點圖表解析</h5>
+                                     <div className="grid grid-cols-1 gap-8">
+                                        {item.content.charts.map((chart, cIdx) => (
+                                           <div key={cIdx} className="bg-black/20 rounded-2xl overflow-hidden border border-white/10 group/chart hover:border-purple-500/30 transition-colors">
+                                              <div className="h-[400px] bg-black relative">
+                                                 <ImageDisplay src={chart.image} alt={chart.title} className="w-full h-full object-contain" />
+                                                 <div className="absolute top-4 left-4 bg-black/70 backdrop-blur px-3 py-1 rounded-lg border border-white/10 text-xs font-mono text-white">
+                                                    FIG {cIdx + 1}
+                                                 </div>
+                                              </div>
+                                              <div className="p-6 bg-slate-900/40">
+                                                 <h6 className="text-white font-bold text-base mb-2">{chart.title}</h6>
+                                                 <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line border-t border-white/5 pt-3">{chart.text}</p>
+                                              </div>
+                                           </div>
+                                        ))}
+                                     </div>
+                                  </div>
+                                )}
+                             </div>
+                          </div>
+                      ) : item.isGravityPrinciples ? (
+                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                              <div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Sigma size={14}/> 牛頓萬有引力 (NEWTON)</div>
+                              <div className="text-lg text-white font-serif italic mb-2">F = G <MathFraction num="m₁m₂" den="r²" /></div>
+                              <p className="text-[10px] text-slate-400">萬物皆有引力，重力探勘的基礎。G 為萬有引力常數。</p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                              <div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Sigma size={14}/> 理論重力 (THEORETICAL)</div>
+                              <div className="text-lg text-white font-serif italic mb-2">gₜ ≈ gₑ(1 + 0.0053sin²φ)</div>
+                              <p className="text-[10px] text-slate-400">地球非正圓，重力隨緯度φ增加而變大 (赤道最小，兩極最大)。</p>
+                            </div>
+                            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
+                               <div className="flex items-center gap-2 text-orange-400 mb-2 text-xs font-bold"><Scale size={14}/> 重力單位 (UNIT)</div>
+                               <div className="text-lg text-white font-serif italic mb-2">1 mGal = 10⁻³ Gal</div>
+                               <p className="text-[10px] text-slate-400">Gal (cm/s²)。地表平均重力約 980,000 mGal。</p>
+                            </div>
+                          </div>
+                      ) : item.isFACSection ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <FormulaBlock formula={{label: '自由空間校正 (FAC)', math: 'FAC = 0.3086 × h', desc: '每上升 1m 重力減少約 0.3086 mGal。因為是補償「損失」的重力，所以符號為 (+)。'}} />
+                             <FormulaBlock formula={{label: '自由空間異常 (FAA)', math: 'Δg_fa = g - gₜ + FAC', desc: 'g: 觀測重力, gt: 理論重力(緯度修正), FAC: 高度修正。'}} />
+                          </div>
+                      ) : item.isBCSection ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             <FormulaBlock formula={{label: '布格校正 (BC)', math: 'BC = 0.0419ρh', desc: 'ρ 為岩石密度。我們要扣除這塊「無限大平板」的引力，所以符號為 (-)。'}} />
+                             <FormulaBlock formula={{label: '布格異常 (ΔgB)', math: 'ΔgB = Δg_fa - BC', desc: '這是經緯度、高度與岩層質量校正後的最終結果，直接反映地下密度分佈。'}} />
+                          </div>
+                      ) : item.isCustomComp ? (
+                        <div className="w-full">
+                          {item.component}
+                        </div>
+                      ) : item.isEmbed ? (
+                          <div className="flex flex-col w-full gap-8">
+                             {/* Question Image if present */}
+                             {item.questionImage && (
+                               <div className="flex flex-col gap-3">
+                                 <div className="flex items-center gap-2 text-yellow-400">
+                                    <FileText size={20} />
+                                    <h4 className="text-lg font-bold">作業題目 (Question)</h4>
+                                 </div>
+                                 <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg bg-black h-[400px]">
+                                    <ImageDisplay src={item.questionImage} alt="Question Image" className="w-full h-full object-contain" />
+                                 </div>
+                               </div>
+                             )}
+
+                             <div className="flex flex-col h-[600px] w-full">
+                               <div className="flex items-center justify-between mb-4">
+                                 <h4 className="text-xl font-bold text-white flex items-center gap-3">
+                                    <div className={`w-8 h-1 rounded-full bg-gradient-to-r ${selectedTopic.color}`}></div>
+                                    {item.title}
+                                 </h4>
+                                 <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs text-blue-400 hover:text-blue-300 transition-colors border border-blue-500/30 px-3 py-1.5 rounded-full hover:bg-blue-500/10">
+                                   Open in New Tab <ExternalLink size={12} />
+                                 </a>
+                               </div>
+                               <div className="flex-1 bg-white rounded-xl overflow-hidden border border-white/10 shadow-2xl relative group/embed">
+                                 <iframe src={item.url} className="w-full h-full border-0" title={item.title} />
+                                 <div className="absolute inset-0 bg-transparent pointer-events-none border-[6px] border-slate-800/50 rounded-xl"></div>
+                               </div>
+                             </div>
+                          </div>
+                      ) : item.isChartGroup ? (
+                          <div className="flex flex-col gap-8">
+                            <h4 className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-300 via-purple-300 to-white mb-6 border-b border-white/10 pb-4 flex items-center gap-3">
+                              <Presentation size={28} className="text-purple-400" />
+                              {item.title}
+                            </h4>
+                            <div className="grid grid-cols-1 gap-8">
+                              {item.charts.map((chart, cIdx) => (
+                                <div key={cIdx} className="bg-slate-900/60 rounded-2xl p-6 border border-white/10 shadow-xl hover:border-purple-500/30 transition-all group/chart">
+                                  <div className="mb-4 flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-300 font-bold font-mono text-sm">{cIdx + 1}</div>
+                                    <h5 className="text-xl font-bold text-white group-hover/chart:text-purple-300 transition-colors">{chart.title}</h5>
+                                  </div>
+                                  <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg mb-6 relative group/img bg-black">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-10"></div>
+                                    {/* 修改：將 object-cover 改為 object-contain */}
+                                    <ImageDisplay src={chart.image} alt={chart.title} className="w-full h-auto object-contain transform group-hover/img:scale-105 transition-transform duration-700 ease-out" />
+                                  </div>
+                                  <p className="text-slate-300 leading-relaxed text-sm whitespace-pre-line font-light pl-2 border-l-2 border-purple-500/30">
+                                    {chart.text}
+                                  </p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                      ) : item.isSyllabus ? (
+                        <div className="flex flex-col gap-8">
+                          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-slate-900/50 p-6 rounded-2xl border border-orange-500/30 shadow-lg">
+                            <div>
+                              <h3 className="text-2xl font-black text-white mb-2">{item.title}</h3>
+                              <p className="text-slate-400 text-sm">探索地球奧秘，掌握資料科學技能</p>
+                            </div>
+                            {item.courseLink && (
+                              <a 
+                                href={item.courseLink} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="flex items-center gap-2 px-5 py-2.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full font-bold shadow-lg shadow-orange-500/20 transition-all hover:scale-105"
+                              >
+                                <Link size={16} />
+                                課程介紹網站
+                              </a>
+                            )}
+                          </div>
+
+                          <div className="relative">
+                            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-orange-500/50 via-blue-500/50 to-transparent"></div>
+                            <div className="space-y-6">
+                              {item.schedule.map((week, wIdx) => (
+                                <div key={wIdx} className="relative pl-20 group/week">
+                                  <div className="absolute left-3 top-0 w-10 h-10 bg-slate-800 rounded-full border-2 border-white/20 flex flex-col items-center justify-center z-10 group-hover/week:border-orange-400 group-hover/week:scale-110 transition-all shadow-lg">
+                                    <span className="text-[8px] text-slate-400 uppercase leading-none">Week</span>
+                                    <span className="text-sm font-bold text-white leading-none">{week.week}</span>
+                                  </div>
+                                  <div className="absolute left-8 top-5 w-12 h-0.5 bg-white/10 group-hover/week:bg-orange-500/50 transition-colors"></div>
+                                  
+                                  <div className="bg-slate-800/40 hover:bg-slate-800/60 rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all duration-300">
+                                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4 pb-3 border-b border-white/5">
+                                      <div className="flex items-center gap-3">
+                                        <div className="px-2 py-1 rounded bg-white/5 text-xs font-mono text-slate-400 flex items-center gap-1">
+                                          <Calendar size={12} /> {week.date}
+                                        </div>
+                                        <h4 className="text-lg font-bold text-white group-hover/week:text-orange-300 transition-colors">{week.title}</h4>
+                                      </div>
+                                      <div className="flex gap-2">
+                                        {week.tools && week.tools.map((icon, tIdx) => (
+                                          <div key={tIdx} className="p-1.5 rounded-lg bg-black/30 text-slate-400 border border-white/5">
+                                            {icon}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                    
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                      <div className="flex flex-col gap-1">
+                                        <span className="text-[10px] uppercase tracking-widest text-blue-400 font-bold flex items-center gap-1"><Globe size={10}/> 地球物理知識</span>
+                                        <p className="text-sm text-slate-300 pl-3 border-l-2 border-blue-500/30">{week.knowledge}</p>
+                                      </div>
+                                      <div className="flex flex-col gap-1">
+                                        <span className="text-[10px] uppercase tracking-widest text-orange-400 font-bold flex items-center gap-1"><Code size={10}/> 資料處理技能</span>
+                                        <p className="text-sm text-slate-300 pl-3 border-l-2 border-orange-500/30">{week.skills}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : item.isSplitImage ? (
+                        <div className="flex flex-col gap-8">
+                          <div className="border-b border-white/10 pb-6 mb-6">
+                             <h4 className="text-2xl font-bold text-white mb-2">{item.title}</h4>
+                             <p className="text-slate-400 text-sm">將影像分為左右兩側，觀察板塊還原前後，磁極路徑由「分岔」轉為「重合」的過程。</p>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                             {/* Left Part */}
+                             <div className="group/split">
+                               <div className="rounded-xl overflow-hidden border border-white/10 h-64 relative mb-4 shadow-lg group-hover/split:border-blue-500/50 transition-colors bg-black/40">
+                                 <ImageDisplay 
+                                   src={item.images ? item.images.left : item.image} 
+                                   alt="Image Left Part" 
+                                   className="w-full h-full"
+                                   // 修改：統一強制使用 object-contain
+                                   style={{ objectFit: 'contain', objectPosition: 'center' }}
+                                 />
+                                 <div className="absolute top-2 left-2 px-2 py-1 bg-black/60 backdrop-blur border border-white/10 rounded text-[10px] font-bold text-white uppercase tracking-wider">{item.images ? 'Left View' : 'Before (Present)'}</div>
+                               </div>
+                               <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 group-hover/split:bg-slate-900/80 transition-colors">
+                                 <h5 className="text-lg font-bold text-blue-300 mb-2">{item.sections[0].title}</h5>
+                                 <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">{item.sections[0].desc}</p>
+                               </div>
+                             </div>
+                             
+                             {/* Right Part */}
+                             <div className="group/split">
+                               <div className="rounded-xl overflow-hidden border border-white/10 h-64 relative mb-4 shadow-lg group-hover/split:border-pink-500/50 transition-colors bg-black/40">
+                                 <ImageDisplay 
+                                   src={item.images ? item.images.right : item.image} 
+                                   alt="Image Right Part" 
+                                   className="w-full h-full"
+                                   // 修改：統一強制使用 object-contain
+                                   style={{ objectFit: 'contain', objectPosition: 'center' }}
+                                 />
+                                 <div className="absolute top-2 right-2 px-2 py-1 bg-black/60 backdrop-blur border border-white/10 rounded text-[10px] font-bold text-white uppercase tracking-wider">{item.images ? 'Right View' : 'After (Restored)'}</div>
+                               </div>
+                               <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 group-hover/split:bg-slate-900/80 transition-colors">
+                                 <h5 className="text-lg font-bold text-pink-300 mb-2">{item.sections[1].title}</h5>
+                                 <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line">{item.sections[1].desc}</p>
+                               </div>
+                             </div>
+                          </div>
+                        </div>
+                      ) : item.isKeyPoints ? (
+                        <div className="flex flex-col gap-6">
+                            <h4 className="text-2xl font-bold text-white border-l-4 border-red-500 pl-4 mb-2">{item.title}</h4>
+                            <div className="grid grid-cols-1 gap-4">
+                              {item.points.map((point, pIdx) => (
+                               <div key={pIdx} className="bg-slate-800/40 rounded-xl p-5 border border-white/5 hover:border-red-500/30 transition-all hover:translate-x-1 duration-300 group/point">
+                                  <h5 className="text-lg font-bold text-white mb-2 group-hover/point:text-red-300 transition-colors flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-red-500"></div>
+                                    {point.title}
+                                  </h5>
+                                  <p className="text-sm text-slate-400 leading-relaxed whitespace-pre-line pl-4 border-l border-white/5">{point.desc}</p>
+                               </div>
+                              ))}
+                            </div>
+                        </div>
+                      ) : item.isProject ? (
                           <div className="flex flex-col gap-8">
                             <div className="border-b border-white/10 pb-6">
                               <div className="flex items-start justify-between flex-wrap gap-4">
                                 <h3 className="text-2xl font-bold text-white mb-3 flex items-center gap-3">
-                                   <div className={`p-2 rounded-lg bg-gradient-to-br ${activeTopic.color}`}>
+                                   <div className={`p-2 rounded-lg bg-gradient-to-br ${selectedTopic.color}`}>
                                      {idx === 0 ? <Terminal size={24} className="text-white" /> : <Monitor size={24} className="text-white" />}
                                    </div>
                                    {item.title}
                                 </h3>
-                                {item.linkTo && (<button onClick={(e) => { e.stopPropagation(); const target = topics.find(t => t.id === item.linkTo); if(target) handleTopicClick(target); }} className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 text-blue-300 text-sm font-bold transition-all group/btn shadow-lg hover:shadow-blue-500/20"><Reply size={16} className="group-hover/btn:-scale-x-100 transition-transform"/>複習重力探勘概念</button>)}
+                                {item.linkTo && (
+                                  <button 
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const target = topics.find(t => t.id === item.linkTo);
+                                      if(target) handleTopicClick(target);
+                                    }}
+                                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 text-blue-300 text-sm font-bold transition-all group/btn shadow-lg hover:shadow-blue-500/20"
+                                  >
+                                    <Reply size={16} className="group-hover/btn:-scale-x-100 transition-transform"/>
+                                    複習重力探勘概念
+                                  </button>
+                                )}
                               </div>
                               <p className="text-slate-400 leading-relaxed text-sm md:text-base mt-2">{item.intro}</p>
                             </div>
-                            {item.steps && (<div className="grid grid-cols-1 md:grid-cols-2 gap-4">{item.steps.map((step, sIdx) => (<div key={sIdx} className={`bg-white/5 rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all ${step.width === 'full' ? 'md:col-span-2' : ''}`}><h5 className="font-bold text-blue-300 mb-2 text-sm">{step.title}</h5><p className="text-xs text-slate-400 leading-relaxed whitespace-pre-line">{step.text}</p></div>))}</div>)}
-                            {item.codeSnippet && (<div className="bg-slate-900 rounded-xl p-4 border border-white/10 font-mono text-xs text-blue-200 overflow-x-auto my-2 shadow-inner"><pre>{item.codeSnippet}</pre></div>)}
-                            {item.questionImage && (<div className="bg-slate-900/50 rounded-xl p-6 border border-white/10"><h5 className="text-sm font-bold text-white mb-4 flex items-center gap-2 border-l-4 border-orange-500 pl-3">作業題目說明 (Problem Description)</h5><div className="rounded-lg overflow-hidden border border-white/5 shadow-lg max-w-4xl mx-auto mb-4"><ImageDisplay src={item.questionImage} alt="作業題目" className="w-full h-auto object-contain bg-black/40" /></div><p className="text-sm text-slate-300 leading-relaxed">上圖顯示了重力測勘的數據處理流程。從原始的觀測重力值 (g_obs) 開始，依序扣除緯度造成的理論重力 (g_the)，進行高度修正 (Free-air Correction) 與質量修正 (Bouguer Correction)，最終得到能夠反映地下密度異常的布格重力異常值 (Δg_B)。</p></div>)}
-                            {item.gallery && (<div className="space-y-6">{item.gallery.map((imgItem, gIdx) => (<div key={gIdx} className="bg-black/20 rounded-xl p-4 border border-white/5"><div className="rounded-lg overflow-hidden border border-white/10 mb-3 group/img relative"><div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-10"></div><ImageDisplay src={imgItem.image} alt={imgItem.title} className="w-full h-auto transform group-hover/img:scale-105 transition-transform duration-700 ease-out" /></div><div className="pl-2 border-l-2 border-blue-500/50"><h6 className="text-sm font-bold text-white mb-1">{imgItem.title}</h6>{imgItem.text && <p className="text-xs text-slate-400">{imgItem.text}</p>}</div></div>))}</div>)}
-                            {item.embed && (<div className="flex flex-col h-[600px] w-full mt-4"><div className="flex items-center justify-between mb-3 px-1 border-b border-white/5 pb-2"><span className="text-sm font-bold text-slate-300 flex items-center gap-2"><Globe size={16} className="text-blue-400"/> {item.embed.title}</span><a href={item.embed.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-[10px] text-blue-400 hover:text-blue-300 transition-colors border border-blue-500/30 px-3 py-1.5 rounded-full hover:bg-blue-500/10">Open in New Tab <ExternalLink size={12} /></a></div><div className="flex-1 bg-white rounded-xl overflow-hidden border border-white/10 shadow-2xl relative group/embed"><iframe src={item.embed.url} title={item.embed.title} className="w-full h-full border-0" /><div className="absolute inset-0 bg-transparent pointer-events-none border-[4px] border-slate-800/50 rounded-xl"></div></div></div>)}
+
+                            {/* Steps Section */}
+                            {item.steps && (
+                              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                {item.steps.map((step, sIdx) => (
+                                   <div key={sIdx} className={`bg-white/5 rounded-xl p-5 border border-white/5 hover:border-white/20 transition-all ${step.width === 'full' ? 'md:col-span-2' : ''}`}>
+                                      <h5 className="font-bold text-blue-300 mb-2 text-sm">{step.title}</h5>
+                                      <p className="text-xs text-slate-400 leading-relaxed whitespace-pre-line">{step.text}</p>
+                                   </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {/* Code Snippet */}
+                            {item.codeSnippet && (
+                               <div className="bg-slate-900 rounded-xl overflow-hidden border border-white/10 group/code">
+                                 <div className="flex items-center justify-between px-4 py-2 bg-slate-800 border-b border-white/10">
+                                   <span className="text-xs font-mono text-slate-400">Python</span>
+                                   <div className="flex gap-1.5">
+                                     <div className="w-2.5 h-2.5 rounded-full bg-red-500/50"></div>
+                                     <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/50"></div>
+                                     <div className="w-2.5 h-2.5 rounded-full bg-green-500/50"></div>
+                                   </div>
+                                 </div>
+                                 <div className="p-4 overflow-x-auto">
+                                   <pre className="text-xs font-mono text-blue-200 whitespace-pre-wrap">{item.codeSnippet}</pre>
+                                 </div>
+                               </div>
+                            )}
+                            
+                            {/* Gallery */}
+                            {item.gallery && (
+                               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                 {item.gallery.map((img, gIdx) => (
+                                   <div key={gIdx} className="group/gal relative rounded-xl overflow-hidden border border-white/10 bg-black/40">
+                                     <ImageDisplay src={img.image} alt={img.title} className="w-full h-64 object-contain transition-transform duration-700 group-hover/gal:scale-105" />
+                                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-transparent opacity-0 group-hover/gal:opacity-100 transition-opacity p-4 flex flex-col justify-end">
+                                       <h5 className="text-white font-bold text-sm mb-1">{img.title}</h5>
+                                       <p className="text-slate-300 text-xs">{img.text}</p>
+                                     </div>
+                                   </div>
+                                 ))}
+                               </div>
+                            )}
+                            
+                            {/* Embed/Link */}
+                            {item.embed && (
+                               <a href={item.embed.url} target="_blank" rel="noopener noreferrer" className="flex items-center justify-between p-4 rounded-xl bg-slate-800 border border-white/10 hover:border-blue-500/50 hover:bg-slate-700 transition-all group/link">
+                                 <div className="flex items-center gap-3">
+                                   <div className="p-2 rounded-lg bg-blue-500/20 text-blue-300">
+                                     <Globe size={20} />
+                                   </div>
+                                   <div>
+                                     <h5 className="text-sm font-bold text-white group-hover/link:text-blue-300 transition-colors">{item.embed.title}</h5>
+                                     <span className="text-xs text-slate-500 font-mono truncate max-w-[200px] block">{item.embed.url}</span>
+                                   </div>
+                                 </div>
+                                 <ExternalLink size={16} className="text-slate-500 group-hover/link:text-white transition-colors"/>
+                               </a>
+                            )}
+                            
+                            {/* Single Image (e.g., Result) */}
+                            {item.questionImage && (
+                               <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg">
+                                 <ImageDisplay src={item.questionImage} alt="Question" className="w-full h-auto" />
+                               </div>
+                            )}
                           </div>
-                        ) : (
-                          /* Default Item Render */
-                          <>
-                            {item.title && <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-3 group-hover/card:text-blue-200 transition-colors"><div className={`w-8 h-1 rounded-full bg-gradient-to-r ${activeTopic.color}`}></div>{item.title}</h4>}
-                            {item.isFormula ? (<div className="grid grid-cols-1 md:grid-cols-2 gap-4">{item.formulas.map((formula, fIdx) => (<FormulaBlock key={fIdx} formula={formula} />))}</div>) : item.equipmentList ? (<div className="space-y-3">{item.equipmentList.map((eq) => (<div key={eq.id} className="flex items-start gap-3 p-3 rounded-xl bg-white/5 border border-white/10 transition-all"><div className="flex-shrink-0 w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-orange-400 border border-white/10">{eq.id}</div><div><div className="text-sm font-bold text-slate-200 mb-1">{eq.name}</div><p className="text-xs text-slate-400 leading-relaxed">{eq.desc}</p></div></div>))}</div>) : item.isProcess ? (<div className="grid grid-cols-1 md:grid-cols-2 gap-6">{item.steps.map((step, sIdx) => (<div key={sIdx} className="flex flex-col gap-3 group/step"><div className="aspect-[4/3] rounded-xl overflow-hidden border border-white/10 shadow-lg relative"><ImageDisplay src={step.img} alt={step.title} className="w-full h-full object-cover transform group-hover/step:scale-110 transition-transform duration-700 ease-out" /><div className="absolute top-3 left-3 w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center shadow-lg z-10 border border-white/20 backdrop-blur-sm">{sIdx + 1}</div><div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60"></div></div><div><h5 className="text-lg font-bold text-white mb-1 group-hover/step:text-blue-300 transition-colors">{step.title}</h5><p className="text-sm text-slate-400 leading-relaxed font-light">{step.desc}</p></div></div>))}</div>) : item.isDerivationImages ? (<div className="grid grid-cols-1 md:grid-cols-2 gap-4">{item.images.map((imgSrc, iIdx) => (<div key={iIdx} className="relative rounded-xl overflow-hidden border border-white/10 shadow-lg group/img"><div className="absolute top-2 left-2 px-2 py-0.5 rounded bg-black/50 text-[10px] text-white/70 font-mono z-10">Note {iIdx+1}</div><ImageDisplay src={imgSrc} alt={`Derivation Note ${iIdx+1}`} className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" /></div>))}</div>) : item.isDerivation ? (<div className="flex flex-col gap-6"><div className="space-y-4">{item.steps.map((step, sIdx) => (<div key={sIdx} className="flex gap-4 p-4 rounded-xl bg-slate-900/40 border border-white/5 hover:border-pink-500/30 transition-all group/step"><div className="flex-shrink-0 w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-sm font-bold font-mono text-pink-400 group-hover/step:bg-pink-500 group-hover/step:text-white transition-all shadow-[0_0_15px_rgba(236,72,153,0.1)] group-hover/step:shadow-[0_0_20px_rgba(236,72,153,0.4)]">{step.step}</div><div className="flex-1"><h5 className="text-base font-bold text-white mb-2 group-hover/step:text-pink-200 transition-colors">{step.title}</h5><p className="text-sm text-slate-400 mb-3 leading-relaxed">{step.desc}</p><div className="bg-black/30 rounded-lg p-3 border border-white/5 font-serif text-slate-200 group-hover/step:border-white/10 transition-colors">{step.math}</div></div></div>))}</div></div>) : item.isResult ? (<div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-4"><div className="lg:col-span-7 flex flex-col gap-4"><div className="relative rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl group/chart bg-white/5 p-2"><div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-60 z-10"></div><div className="overflow-hidden relative rounded-xl"><ImageDisplay src={item.image} alt="實驗手寫數據" className="w-full h-full object-cover transform group-hover/chart:scale-105 transition-transform duration-700 ease-out" /></div><div className="absolute top-4 left-4 px-3 py-1 rounded-full bg-black/50 backdrop-blur-md border border-white/10 text-[10px] font-mono text-blue-300 tracking-widest z-20 flex items-center gap-2"><Camera size={12} /> RAW DATA</div><div className="absolute bottom-0 left-0 right-0 p-6 z-20"><p className="text-slate-200 text-base font-light leading-relaxed drop-shadow-md">{item.text}</p></div></div></div><div className="lg:col-span-5 flex flex-col gap-4"><div className="bg-slate-800/40 backdrop-blur-xl rounded-2xl p-5 border border-white/10 relative overflow-hidden"><div className={`absolute -top-10 -right-10 w-32 h-32 bg-gradient-to-br ${activeTopic.color} blur-[60px] opacity-20`}></div><h5 className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2 relative z-10"><Activity size={14} className="text-blue-400" /> Calculation Results</h5><div className="grid grid-cols-2 gap-3 relative z-10"><div className="p-3 rounded-xl bg-white/5 border border-white/5 flex flex-col justify-center"><span className="text-[10px] text-slate-400 uppercase mb-1">Layer 1 Velocity</span><span className="text-xl font-bold text-white font-mono">{item.stats.v1}</span></div><div className="p-3 rounded-xl bg-white/5 border border-white/5 flex flex-col justify-center"><span className="text-[10px] text-slate-400 uppercase mb-1">Layer 2 Velocity</span><span className="text-xl font-bold text-emerald-400 font-mono">{item.stats.v2}</span></div><div className="col-span-2 p-3 rounded-xl bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20 flex items-center justify-between"><span className="text-xs text-orange-300 font-bold uppercase pl-1">Calculated Depth (h)</span><span className="text-2xl font-bold text-orange-400 font-mono">{item.stats.h}</span></div></div></div><div className="bg-slate-900/40 rounded-2xl p-5 border border-white/5 flex-1"><h5 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4 pl-1">Derivation Process</h5><div className="space-y-0 relative"><div className="absolute left-[19px] top-2 bottom-4 w-[1px] bg-white/10"></div>{item.derivationSteps.map((step, dIdx) => (<div key={dIdx} className="relative flex gap-4 pb-6 last:pb-0 group/step"><div className="relative z-10 flex-shrink-0 w-10 h-10 rounded-full bg-slate-800 border border-white/10 flex items-center justify-center text-xs font-mono text-slate-400 group-hover/step:text-white group-hover/step:border-blue-500 group-hover/step:bg-blue-500/20 transition-all">{step.step}</div><div className="pt-1"><h6 className="text-sm font-bold text-slate-300 group-hover/step:text-blue-200 transition-colors mb-1">{step.title}</h6><p className="text-xs text-slate-500 leading-relaxed group-hover/step:text-slate-400 transition-colors">{step.desc}</p></div></div>))}</div></div></div></div>) : (
-                            /* Simple Text Image Render */
-                            <div className="flex flex-col h-full">{item.image && (<div className="rounded-xl overflow-hidden border border-white/10 shadow-lg group/img relative mb-4 flex-1"><div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity z-10"></div><ImageDisplay src={item.image} alt={item.title} className="w-full h-full object-cover hover:scale-105 transition-transform duration-700" /></div>)}<p className="text-slate-400 leading-relaxed whitespace-pre-line text-sm font-light">{item.text}</p></div>
+                      ) : item.image && !item.isSplitImage ? (
+                        <div className="flex flex-col gap-4">
+                          {/* 這裡調整了高度與顯示模式：h-[500px] 放大顯示區域，object-contain 確保不裁切 */}
+                          <div className="rounded-xl overflow-hidden border border-white/10 shadow-lg relative group/img h-[500px] bg-black">
+                             <ImageDisplay 
+                                src={item.image} 
+                                alt={item.title} 
+                                className="w-full h-full object-contain transform transition-transform duration-700" 
+                             />
+                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover/img:opacity-100 transition-opacity pointer-events-none"></div>
+                          </div>
+                          {item.text && <p className="text-slate-400 text-sm leading-relaxed">{item.text}</p>}
+                          
+                          {/* 針對成果數據 (Results) 的特殊渲染 */}
+                          {item.isResult && item.stats && (
+                             <div className="grid grid-cols-3 gap-4 mt-4">
+                                <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 text-center">
+                                   <div className="text-xs text-slate-500 uppercase tracking-widest mb-1">Layer 1 Velocity</div>
+                                   <div className="text-2xl font-bold text-pink-400 font-mono">{item.stats.v1}</div>
+                                </div>
+                                <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 text-center">
+                                   <div className="text-xs text-slate-500 uppercase tracking-widest mb-1">Layer 2 Velocity</div>
+                                   <div className="text-2xl font-bold text-blue-400 font-mono">{item.stats.v2}</div>
+                                </div>
+                                <div className="bg-slate-900/50 p-4 rounded-xl border border-white/5 text-center">
+                                   <div className="text-xs text-slate-500 uppercase tracking-widest mb-1">Depth (h)</div>
+                                   <div className="text-2xl font-bold text-orange-400 font-mono">{item.stats.h}</div>
+                                </div>
+                             </div>
                           )}
-                          </>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                          
+                          {item.isResult && item.derivationSteps && (
+                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                {item.derivationSteps.map((step, dIdx) => (
+                                   <div key={dIdx} className="bg-slate-800/30 p-4 rounded-xl border border-white/5 flex gap-4 items-start hover:bg-slate-800/50 transition-colors">
+                                      <div className="p-2 rounded-lg bg-white/5 text-slate-300">
+                                        {step.icon}
+                                      </div>
+                                      <div>
+                                         <h6 className="text-white font-bold text-sm mb-1 flex items-center gap-2">
+                                           <span className="text-[10px] text-slate-500 font-mono px-1.5 py-0.5 rounded border border-white/10">{step.step}</span>
+                                           {step.title}
+                                         </h6>
+                                         <p className="text-xs text-slate-400 leading-relaxed whitespace-pre-line">{step.desc}</p>
+                                      </div>
+                                   </div>
+                                ))}
+                             </div>
+                          )}
+                        </div>
+                      ) : item.isProcess ? (
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           {item.steps.map((step, sIdx) => (
+                             <div key={sIdx} className="bg-slate-900/50 rounded-xl overflow-hidden border border-white/5 group/process">
+                               <div className="h-64 overflow-hidden relative bg-black">
+                                  {/* 修改：增加高度至 h-64 並改為 object-contain */}
+                                  <ImageDisplay src={step.img} alt={step.title} className="w-full h-full object-contain transition-transform duration-700 group-hover/process:scale-105" />
+                                  <div className="absolute top-2 left-2 w-6 h-6 rounded-full bg-black/60 backdrop-blur text-white flex items-center justify-center text-xs font-bold border border-white/20">{sIdx + 1}</div>
+                               </div>
+                               <div className="p-4">
+                                 <h5 className="text-sm font-bold text-white mb-2">{step.title}</h5>
+                                 <p className="text-xs text-slate-400 leading-relaxed">{step.desc}</p>
+                               </div>
+                             </div>
+                           ))}
+                         </div>
+                      ) : item.equipmentList ? (
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                           {item.equipmentList.map((eq) => (
+                             <div key={eq.id} className="flex items-start gap-3 p-3 rounded-xl bg-slate-900/30 border border-white/5 hover:border-white/20 transition-colors">
+                                <div className="mt-1 w-2 h-2 rounded-full bg-blue-500 shrink-0"></div>
+                                <div>
+                                  <h5 className="text-sm font-bold text-slate-200">{eq.name}</h5>
+                                  <p className="text-xs text-slate-500 mt-1">{eq.desc}</p>
+                                </div>
+                             </div>
+                           ))}
+                         </div>
+                      ) : item.isFormula ? (
+                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                           {item.formulas.map((f, fIdx) => (
+                             <FormulaBlock key={fIdx} formula={f} />
+                           ))}
+                         </div>
+                      ) : item.isDerivation ? (
+                         <div className="space-y-4">
+                            {item.steps.map((step, dIdx) => (
+                               <div key={dIdx} className="bg-slate-800/30 rounded-xl p-5 border border-white/5 relative overflow-hidden">
+                                  <div className="absolute top-0 right-0 p-4 opacity-10">
+                                     <span className="text-6xl font-black text-white">{step.step}</span>
+                                  </div>
+                                  <h5 className="text-lg font-bold text-pink-300 mb-2 relative z-10">{step.title}</h5>
+                                  <p className="text-sm text-slate-400 mb-4 relative z-10">{step.desc}</p>
+                                  <div className="bg-slate-900/60 rounded-lg p-4 font-mono text-slate-200 border-l-2 border-pink-500 relative z-10">
+                                     {step.math}
+                                  </div>
+                               </div>
+                            ))}
+                         </div>
+                      ) : item.isDerivationImages ? (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                             {item.images.map((imgSrc, imgIdx) => (
+                                <div key={imgIdx} className="rounded-xl overflow-hidden border border-white/10 shadow-lg group/img">
+                                   <ImageDisplay src={imgSrc} alt={`Derivation Note ${imgIdx + 1}`} className="w-full h-auto transition-transform duration-500 group-hover/img:scale-105" />
+                                </div>
+                             ))}
+                          </div>
+                      ) : (
+                        <p className="text-slate-300 leading-relaxed whitespace-pre-line">{item.text}</p>
+                      )}
+                    </div>
+                  ))}
                 </div>
-              </>
-            )}
+              )}
+            </div>
           </div>
         )}
       </div>
     </div>
   );
 }
-        // ===========================================
-
-        // 貼上程式碼時，請注意：
-        // 1. 找到原本程式碼最下方的 "export default function App() { ... }"
-        // 2. 將 "export default function App" 改成 "function App" (把 export default 刪掉)
-        // 3. 確保貼在這邊
-        
-        // 範例 (請替換成你的真實程式碼):
-        /* const MathFraction = ({ num, den }) => ( ... );
-        
-        // ... (中間幾千行) ...
-
-        function App() {  // <--- 注意這裡沒有 export default
-           // ...
-        }
-        */
-
-
-        // ===========================================
-        //  請在貼上程式碼的「最後面」，補上這三行來啟動 React
-        // ===========================================
-        
-        // 這一行請手動加在最下面：
-        const root = createRoot(document.getElementById('root'));
-        root.render(<App />);
-
-    </script>
-</body>
-</html>
