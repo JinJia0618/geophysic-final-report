@@ -26,6 +26,12 @@
 
 ### 2. 📝 折射震測模擬 (Simulation & Derivation)
 * **理論推導**：從司乃耳定律 (Snell's Law) 出發，完整推導臨界折射波走時方程式。
+* **手寫筆記**：包含臨界折射波路徑推導與交叉距離 ($X_{cr}$) 之幾何定義。
+
+| 公式推導過程 | Xcr 定義與幾何圖 |
+| :---: | :---: |
+| ![Derivation 1](https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/IMG_8908.jpeg) | ![Derivation 2](https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/IMG_8910.jpeg) |
+
 * **互動模擬器**：
     * 可調整參數：$V_1, V_2, h$ (震源深度)。
     * 即時計算：**臨界距離 ($X_{cr}$)** 與 **截距時間 ($T_i$)**。
@@ -50,6 +56,8 @@
 * **PyGMT 實作**：
     * 整合 ETOPO1 地形資料與 USGS 地震目錄。
     * 展示 **Google Colab** 環境下的 PyGMT 繪圖優化成果（高解析地形渲染）。
+
+![南極板塊 PyGMT 地形圖](https://raw.githubusercontent.com/JinJia0618/geophysic-final-report/main/%E5%8D%97%E6%A5%B5%E6%9D%BF%E5%A1%8A%E7%85%A7%E7%89%87%20(3).png)
 
 ### 7. ⚡ 地熱探勘與 AI 應用 (Geothermal & AI)
 * **探勘方法**：介紹陸地鑽井與海洋探針 (Heat Flow Probe) 測量原理。
@@ -113,7 +121,7 @@
 * **學號**：U11310017
 * **系級**：台北市立大學 地球環境暨生物資源學系 (地科組) 二年級
 * **課程**：113-1 地球物理通論
-* **指導教授**：[陳達毅]
+* **指導教授**：[陳達毅老師]
 
 ---
 
