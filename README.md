@@ -1,4 +1,3 @@
-# geophysic-final-report
 # 🌍 113-1 地球物理通論 (General Geophysics) 期末專題成果
 
 ![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
